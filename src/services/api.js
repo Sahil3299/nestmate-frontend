@@ -32,8 +32,8 @@ export const listingApi = {
   getAll:     (params)      => apiClient.get("/listings", { params }),
   getOne:     (id)          => apiClient.get(`/listings/${id}`),
   getMine:    ()            => apiClient.get("/listings/mine"),
-  create:     (formData)    => apiClient.post("/listings", formData),
-  update:     (id, formData) => apiClient.patch(`/listings/${id}`, formData),
+  create:     (formData)    => apiClient.post("/listings", formData, { timeout: 60000 }),
+  update:     (id, formData) => apiClient.patch(`/listings/${id}`, formData, { timeout: 60000 }),
   remove:     (id)           => apiClient.delete(`/listings/${id}`),
 };
 
