@@ -77,7 +77,7 @@ export default function ListingDetailPage() {
     fetchListing();
   }, [id]);
 
-  const images = listing?.images?.length ? listing.images : DEFAULT_IMAGES;
+  const images = listing?.photos?.length ? listing.photos : (listing?.images?.length ? listing.images : DEFAULT_IMAGES);
 
   const nextImage = () => {
     setCurrentImageIndex((prev) => (prev + 1) % images.length);

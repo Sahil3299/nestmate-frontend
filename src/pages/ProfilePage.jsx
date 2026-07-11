@@ -221,6 +221,8 @@ export default function ProfilePage() {
       if (formData.name !== undefined) payload.name = formData.name;
       if (formData.city !== undefined) payload.city = formData.city;
       if (formData.bio !== undefined) payload.bio = formData.bio;
+      if (formData.phone !== undefined) payload.phone = formData.phone;
+      if (formData.gender !== undefined) payload.gender = formData.gender;
       if (formData.profileImage !== undefined) payload.profileImage = formData.profileImage;
       if (formData.avatarPublicId !== undefined) payload.avatarPublicId = formData.avatarPublicId;
       if (formData.avatarPreset !== undefined) payload.avatarPreset = formData.avatarPreset;
@@ -522,10 +524,20 @@ export default function ProfilePage() {
                 <div className="flex items-center gap-2 text-[#64748B]">
                   <Mail size={16} /> {profile.email}
                 </div>
+                <p className="text-xs text-[#94a3b8] mt-1">Email can't be changed here</p>
               </div>
               <div>
                 <label className="block text-sm font-semibold text-[#0F172A] mb-2">Phone</label>
-                {profile.phone ? (
+                {isEditing ? (
+                  <input
+                    type="text"
+                    name="phone"
+                    value={formData.phone || ""}
+                    onChange={handleInputChange}
+                    className="input text-sm"
+                    placeholder="Your phone number"
+                  />
+                ) : profile.phone ? (
                   <div className="flex items-center gap-2 text-[#64748B]">
                     <Phone size={16} /> {profile.phone}
                   </div>
@@ -535,7 +547,21 @@ export default function ProfilePage() {
               </div>
               <div>
                 <label className="block text-sm font-semibold text-[#0F172A] mb-2">Gender</label>
-                <div className="text-[#64748B] text-sm">{profile.gender || "Not specified"}</div>
+                {isEditing ? (
+                  <select
+                    name="gender"
+                    value={formData.gender || ""}
+                    onChange={handleInputChange}
+                    className="input text-sm"
+                  >
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
+                  </select>
+                ) : (
+                  <div className="text-[#64748B] text-sm">{profile.gender || "Not specified"}</div>
+                )}
               </div>
             </div>
 
@@ -610,8 +636,8 @@ export default function ProfilePage() {
                         className="card overflow-hidden hover:shadow-card-hover transition-all duration-300 group cursor-pointer"
                       >
                         <div className="relative overflow-hidden">
-                          {listing.images?.[0] ? (
-                            <img src={listing.images[0]} alt={listing.title} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" />
+                          {listing.photos?.[0] || listing.images?.[0] ? (
+                            <img src={listing.photos?.[0] || listing.images?.[0]} alt={listing.title} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" />
                           ) : (
                             <div className="w-full h-40 bg-gradient-to-br from-teal-100 to-teal-50 flex items-center justify-center">
                               <Heart size={32} className="text-teal-300" />

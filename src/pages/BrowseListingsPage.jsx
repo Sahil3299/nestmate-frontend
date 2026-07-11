@@ -250,7 +250,7 @@ export default function BrowseListingsPage() {
                     city={listing.city}
                     price={listing.rent}
                     roomType={listing.roomType}
-                    image={listing.images?.[0] || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop'}
+                    image={listing.photos?.[0] || listing.images?.[0] || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop'}
                     matchScore={listing.matchScore || 90}
                     preferences={listing.preferences || []}
                     gender={listing.genderPreference}
