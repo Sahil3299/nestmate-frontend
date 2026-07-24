@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './pages/HomePage';
+import AboutPage from './pages/AboutPage';
 import BrowseListingsPage from './pages/BrowseListingsPage';
 import PostRoomPage from './pages/PostRoomPage';
 import ListingDetailPage from './pages/ListingDetailPage';
@@ -16,7 +17,7 @@ import FloatingChatWidget from './components/chat/FloatingChatWidget';
 export default function App() {
   return (
     <AuthProvider>
-      <div className="min-h-screen bg-[#FAFAFA] flex flex-col">
+      <div className="min-h-screen bg-[#F7F7F7] flex flex-col">
         <Toaster
           position="top-right"
           toastOptions={{
@@ -24,8 +25,8 @@ export default function App() {
             style: {
               borderRadius: '12px',
               background: '#fff',
-              color: '#0F172A',
-              border: '1px solid #E2E8F0',
+              color: '#0A0A0A',
+              border: '1px solid #E5E5E5',
               fontSize: '14px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
             },
@@ -37,6 +38,7 @@ export default function App() {
         <main className="flex-grow">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
             <Route path="/browse" element={<BrowseListingsPage />} />
             <Route path="/browse/:id" element={<ListingDetailPage />} />
             <Route path="/post-room" element={<PostRoomPage />} />

@@ -1,13 +1,22 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
-  Search, MapPin, Users, Home, ChevronRight, Star,
-  CheckCircle, Shield, MessageCircle, UserCheck,
-  IndianRupee, Building, ArrowRight, Quote, Play
+  ArrowRight,
+  CheckCircle2,
+  Home,
+  IndianRupee,
+  MessageCircle,
+  Play,
+  Search,
+  Shield,
+  Sparkles,
+  Star,
+  Users,
 } from 'lucide-react';
 import ListingCard from '../components/ListingCard';
-import bgPattern from '../assets/Bg.png';
-import sharedLiving from '../assets/shared_living_space.png';
+import bgImage from '../assets/Bg.png';
+import sharedLivingSpace from '../assets/shared_living_space.png';
 
 const DUMMY_LISTINGS = [
   {
@@ -55,54 +64,43 @@ const DUMMY_LISTINGS = [
 ];
 
 const CITIES = ['Mumbai', 'Pune', 'Bangalore', 'Thane', 'Delhi', 'Hyderabad'];
-const BUDGETS = ['Any Budget', 'Under \u20B910k', '\u20B910k - \u20B920k', '\u20B920k - \u20B930k', '\u20B930k - \u20B950k', '\u20B950k+'];
-const GENDERS = ['Any', 'Male', 'Female'];
-const ROOM_TYPES = ['Any', '1BHK', '2BHK', '3BHK', 'Studio', 'PG'];
+const AVATARS = ['AM', 'SK', 'RV'];
 
-const FEATURES = [
+const VALUE_PILLARS = [
   {
-    icon: UserCheck,
-    title: 'Verified Profiles',
-    description: 'Every profile is manually verified with government ID and phone authentication for your safety.',
-    color: 'from-teal-500 to-emerald-500'
-  },
-  {
-    icon: IndianRupee,
-    title: 'Zero Brokerage',
-    description: 'Connect directly with owners and tenants. No middlemen, no hidden fees, no brokerage charges.',
-    color: 'from-blue-500 to-teal-500'
+    icon: Shield,
+    title: 'Verified listings only',
+    description: 'Every profile and room is manually verified with government ID check for complete safety.',
   },
   {
     icon: MessageCircle,
-    title: 'Instant Chat',
-    description: 'Built-in messaging with real-time notifications. Discuss preferences and schedule visits instantly.',
-    color: 'from-purple-500 to-teal-500'
+    title: 'Meet before you commit',
+    description: 'Chat directly with potential flatmates, ask questions, and visit before signing any agreement.',
   },
   {
-    icon: Shield,
-    title: 'Safe Community',
-    description: 'Background verified community with ratings, reviews, and 24/7 support for peace of mind.',
-    color: 'from-amber-500 to-teal-500'
+    icon: IndianRupee,
+    title: 'Zero brokerage, hassle-free',
+    description: 'Direct owner and tenant connections with no hidden middleman fees or brokerage charges.',
   },
 ];
 
 const STEPS = [
   {
     icon: Search,
-    title: 'Search & Browse',
-    description: 'Find rooms and flatmates using advanced filters. View verified profiles and compatibility scores.',
+    title: 'Search & Filter',
+    description: 'Explore verified rooms and roommate profiles by city, budget, and lifestyle preferences.',
     step: '01'
   },
   {
     icon: MessageCircle,
-    title: 'Connect & Chat',
-    description: 'Message potential flatmates or landlords directly. Schedule visits and discuss preferences in real-time.',
+    title: 'Connect & Visit',
+    description: 'Message directly to schedule a visit or virtual walkthrough with zero brokerage.',
     step: '02'
   },
   {
     icon: Home,
     title: 'Move In Safely',
-    description: 'Complete verification and documentation. Zero brokerage, transparent process, stress-free move-in.',
+    description: 'Finalize agreements stress-free and settle into your new home with verified trust.',
     step: '03'
   },
 ];
@@ -110,505 +108,540 @@ const STEPS = [
 const TESTIMONIALS = [
   {
     name: 'Arjun Mehta',
-    role: 'Software Engineer, Mumbai',
+    locality: 'Bandra, Mumbai',
     avatar: 'AM',
-    quote: 'NestMate helped me find the perfect flatmate in just 3 days. The verification process gave me complete confidence. Highly recommended for professionals.',
+    quote: 'Found a great flatmate in 3 days. The verification process gave me complete confidence.',
     rating: 5
   },
   {
     name: 'Sneha Kapoor',
-    role: 'Design Student, Pune',
+    locality: 'Kharadi, Pune',
     avatar: 'SK',
-    quote: 'As a student moving to a new city, NestMate made the process so easy. Zero brokerage and verified listings saved me both money and stress.',
+    quote: 'Zero brokerage and direct chat made moving to a new city stress-free and affordable.',
     rating: 5
   },
   {
     name: 'Rahul Verma',
-    role: 'Product Manager, Bangalore',
+    locality: 'Indiranagar, Bangalore',
     avatar: 'RV',
-    quote: 'The compatibility matching is incredible. Found a flatmate who shares my lifestyle perfectly. The chat feature made coordination seamless.',
+    quote: 'The lifestyle compatibility score matched me with someone who shares my exact schedule.',
     rating: 5
   },
 ];
 
-const DELAYS = ['animate-delay-100', 'animate-delay-200', 'animate-delay-300', 'animate-delay-400'];
+const spring = { type: 'spring', stiffness: 320, damping: 24 };
 
-function AnimatedCounter({ target, suffix = '', duration = 2000 }) {
-  const [count, setCount] = useState(0);
-  const ref = useRef(null);
-  const hasAnimated = useRef(false);
+const staggerContainer = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
+};
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !hasAnimated.current) {
-          hasAnimated.current = true;
-          let start = 0;
-          const increment = target / (duration / 16);
-          const timer = setInterval(() => {
-            start += increment;
-            if (start >= target) {
-              setCount(target);
-              clearInterval(timer);
-            } else {
-              setCount(Math.floor(start));
-            }
-          }, 16);
-        }
-      },
-      { threshold: 0.3 }
-    );
+const fadeUp = {
+  hidden: { opacity: 0, y: 22 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+  },
+};
 
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [target, duration]);
+const fadeInRight = {
+  hidden: { opacity: 0, x: 38, scale: 0.98 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    scale: 1,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.18 },
+  },
+};
+
+const sectionReveal = {
+  hidden: { opacity: 0, y: 36 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+const cardReveal = {
+  hidden: { opacity: 0, y: 24 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
+  },
+};
+
+function Stars({ rating, tone = 'light' }) {
+  const activeClass = tone === 'dark' ? 'fill-white text-white' : 'fill-[#0A0A0A] text-[#0A0A0A]';
+  const inactiveClass = tone === 'dark' ? 'text-white/20' : 'text-[#E5E5E5]';
 
   return (
-    <span ref={ref} className="tabular-nums">
-      {count.toLocaleString()}{suffix}
-    </span>
-  );
-}
-
-function Stars({ rating }) {
-  return (
-    <div className="flex items-center gap-0.5">
-      {Array.from({ length: 5 }).map((_, i) => (
+    <div className="flex items-center gap-1 mb-4">
+      {Array.from({ length: 5 }).map((_, index) => (
         <Star
-          key={i}
-          size={14}
-          className={i < rating ? 'fill-amber-400 text-amber-400' : 'text-slate-200'}
+          key={index}
+          size={13}
+          className={index < rating ? activeClass : inactiveClass}
         />
       ))}
     </div>
   );
 }
 
-function HeroIllustration() {
+function TrustBadge({ tone = 'light' }) {
+  const isDark = tone === 'dark';
+
   return (
-    <div className="relative w-full aspect-[4/3]">
-      <svg viewBox="0 0 520 480" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full h-full">
-        <defs>
-          <linearGradient id="bg-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#14B8A6" stopOpacity="0.08" />
-            <stop offset="100%" stopColor="#0F766E" stopOpacity="0.02" />
-          </linearGradient>
-          <linearGradient id="building-grad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#14B8A6" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#14B8A6" stopOpacity="0.15" />
-          </linearGradient>
-          <linearGradient id="blob-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#14B8A6" stopOpacity="0.12" />
-            <stop offset="100%" stopColor="#0F766E" stopOpacity="0.05" />
-          </linearGradient>
-        </defs>
-
-        <circle cx="260" cy="240" r="200" fill="url(#blob-grad)" />
-        <circle cx="400" cy="150" r="100" fill="url(#blob-grad)" />
-        <circle cx="120" cy="360" r="80" fill="url(#blob-grad)" />
-
-        <rect x="190" y="140" width="160" height="240" rx="12" fill="white" stroke="#E2E8F0" strokeWidth="1.5" />
-        <rect x="190" y="140" width="160" height="8" rx="4" fill="url(#building-grad)" />
-
-        {[0, 1, 2].map((i) => (
-          <g key={`row1-${i}`}>
-            <rect x="210" y={170 + i * 55} width="28" height="36" rx="4" fill="#E2E8F0" />
-            <rect x="210" y={170 + i * 55} width="28" height="36" rx="4" fill="#14B8A6" opacity="0.08" />
-            <rect x="262" y={170 + i * 55} width="28" height="36" rx="4" fill="#E2E8F0" />
-            <rect x="262" y={170 + i * 55} width="28" height="36" rx="4" fill="#14B8A6" opacity="0.08" />
-            <rect x="314" y={170 + i * 55} width="28" height="36" rx="4" fill="#E2E8F0" />
-            <rect x="314" y={170 + i * 55} width="28" height="36" rx="4" fill="#14B8A6" opacity="0.08" />
-          </g>
+    <motion.div
+      variants={fadeUp}
+      className={`inline-flex items-center gap-3 px-4 py-2 rounded-full border shadow-xs ${
+        isDark
+          ? 'border-white/15 bg-white/10 text-white'
+          : 'border-[#E5E5E5] bg-white text-[#0A0A0A]'
+      }`}
+    >
+      <motion.div
+        variants={staggerContainer}
+        initial="hidden"
+        animate="visible"
+        className="flex -space-x-2 overflow-hidden"
+      >
+        {AVATARS.map((avatar, index) => (
+          <motion.div
+            key={avatar}
+            variants={{
+              hidden: { opacity: 0, scale: 0.72 },
+              visible: {
+                opacity: 1,
+                scale: 1,
+                transition: { ...spring, delay: index * 0.04 },
+              },
+            }}
+            className={`inline-flex h-6 w-6 items-center justify-center rounded-full text-[9px] font-bold ring-2 ${
+              isDark
+                ? 'bg-white text-[#0A0A0A] ring-[#0A0A0A]'
+                : 'bg-[#0A0A0A] text-white ring-white'
+            }`}
+          >
+            {avatar}
+          </motion.div>
         ))}
-
-        <rect x="240" y="320" width="55" height="60" rx="8" fill="#E2E8F0" />
-        <rect x="240" y="320" width="55" height="60" rx="8" fill="url(#building-grad)" opacity="0.2" />
-        <circle cx="282" cy="350" r="3" fill="#14B8A6" />
-        <path d="M185 140 L270 100 L355 140" stroke="#14B8A6" strokeWidth="2.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-
-        <g>
-          <rect x="138" y="310" width="8" height="70" rx="3" fill="#94a3b8" />
-          <circle cx="142" cy="290" r="35" fill="#14B8A6" opacity="0.15" />
-          <circle cx="142" cy="290" r="25" fill="#14B8A6" opacity="0.25" />
-          <circle cx="142" cy="290" r="15" fill="#14B8A6" opacity="0.4" />
-        </g>
-
-        <g>
-          <rect x="370" y="280" width="7" height="100" rx="3" fill="#94a3b8" opacity="0.6" />
-          <circle cx="373" cy="260" r="30" fill="#14B8A6" opacity="0.12" />
-          <circle cx="373" cy="260" r="20" fill="#14B8A6" opacity="0.2" />
-          <circle cx="373" cy="260" r="12" fill="#14B8A6" opacity="0.3" />
-        </g>
-
-        <circle cx="140" cy="160" r="4" fill="#14B8A6" opacity="0.5" />
-        <circle cx="160" cy="180" r="3" fill="#14B8A6" opacity="0.4" />
-        <circle cx="170" cy="205" r="5" fill="#14B8A6" opacity="0.6" />
-        <circle cx="355" cy="130" r="4" fill="#0F766E" opacity="0.5" />
-        <circle cx="380" cy="155" r="3" fill="#0F766E" opacity="0.4" />
-        <circle cx="370" cy="180" r="5" fill="#0F766E" opacity="0.6" />
-
-        <path d="M140 160 Q200 130 260 140" stroke="#14B8A6" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" fill="none" />
-        <path d="M355 130 Q290 110 230 130" stroke="#0F766E" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.3" fill="none" />
-        <path d="M170 205 Q200 220 240 210" stroke="#14B8A6" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.25" fill="none" />
-        <path d="M370 180 Q340 200 310 195" stroke="#0F766E" strokeWidth="1.5" strokeDasharray="4 4" opacity="0.25" fill="none" />
-
-        <circle cx="160" cy="395" r="8" fill="#14B8A6" opacity="0.4" />
-        <rect x="154" y="403" width="12" height="18" rx="4" fill="#14B8A6" opacity="0.3" />
-        <circle cx="370" cy="395" r="8" fill="#14B8A6" opacity="0.4" />
-        <rect x="364" y="403" width="12" height="18" rx="4" fill="#14B8A6" opacity="0.3" />
-        <circle cx="265" cy="405" r="8" fill="#0F766E" opacity="0.4" />
-        <rect x="259" y="413" width="12" height="18" rx="4" fill="#0F766E" opacity="0.3" />
-
-        <path d="M350 220 C350 210 360 205 367 212 C374 205 384 210 384 220 C384 235 367 245 367 245 C367 245 350 235 350 220Z" fill="#14B8A6" opacity="0.3" />
-        <path d="M355 222 C355 215 362 212 367 217 C372 212 379 215 379 222 C379 232 367 239 367 239 C367 239 355 232 355 222Z" fill="#14B8A6" opacity="0.5" />
-      </svg>
-    </div>
+      </motion.div>
+      <span className={`text-xs font-semibold tracking-wide ${isDark ? 'text-white/80' : 'text-[#0A0A0A]'}`}>
+        Trusted by 12,000+ flatmates & tenants
+      </span>
+    </motion.div>
   );
 }
 
 export default function HomePage() {
   const navigate = useNavigate();
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchCity, setSearchCity] = useState('Mumbai');
-  const [budget, setBudget] = useState('Any Budget');
-  const [gender, setGender] = useState('Any');
-  const [roomType, setRoomType] = useState('Any');
 
-  const handleSearch = (e) => {
-    e.preventDefault();
+  const handleSearch = (event) => {
+    event.preventDefault();
     const params = new URLSearchParams();
+    if (searchQuery) params.set('search', searchQuery);
     if (searchCity) params.set('city', searchCity);
-    if (budget !== 'Any Budget') params.set('budget', budget);
-    if (gender !== 'Any') params.set('gender', gender);
-    if (roomType !== 'Any') params.set('roomType', roomType);
     navigate(`/browse?${params.toString()}`);
   };
 
   return (
-    <div className="w-full overflow-hidden">
-      {/* HERO SECTION */}
-      <section className="relative overflow-hidden bg-gradient-to-br from-[#FAFAFA] via-white to-teal-50/40"
-        style={{ backgroundImage: `url(${bgPattern})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
-      >
-        <div className="container-max pt-16 md:pt-20 pb-32 md:pb-40">
-          <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-16">
-            <div className="flex-1 max-w-2xl text-center lg:text-left">
-              <div className="flex flex-wrap justify-center lg:justify-start gap-2.5 mb-6" style={{animation: 'fadeIn 0.6s ease-out forwards'}}>
-                <span className="pill">
-                  <CheckCircle size={12} className="text-[#14B8A6]" />
-                  12,000+ Verified Listings
-                </span>
-                <span className="pill">
-                  <IndianRupee size={12} className="text-[#14B8A6]" />
-                  Zero Brokerage
-                </span>
-                <span className="pill">
-                  <Shield size={12} className="text-[#14B8A6]" />
-                  Trusted by Professionals
-                </span>
-              </div>
+    <div className="w-full overflow-x-hidden bg-[#F7F7F7]">
+      <section className="relative pt-8 sm:pt-10 lg:pt-12 pb-16 lg:pb-24">
+        <div className="container-max">
+          <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,0.9fr)_minmax(420px,1.1fr)] lg:gap-10">
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              animate="visible"
+              className="max-w-2xl text-center lg:text-left"
+            >
+              <TrustBadge />
 
-              <h1 className="font-display text-5xl sm:text-6xl md:text-7xl font-bold text-[#0F172A] leading-[1.08] mb-6" style={{animation: 'slideUp 0.6s ease-out forwards'}}>
-                Find Your Perfect<br className="hidden sm:block" />
-                <span className="gradient-text">Flatmate</span> in{' '}
-                <span className="gradient-text">Mumbai</span>
+              <h1 className="mt-8 mb-6 font-serif text-[clamp(4rem,8vw,7.4rem)] font-black leading-[0.92] tracking-[-0.055em] text-[#0A0A0A]">
+                {['Find Your', 'Perfect', 'Flatmate in', 'Mumbai'].map((line) => (
+                  <motion.span key={line} variants={fadeUp} className="block">
+                    {line}
+                  </motion.span>
+                ))}
               </h1>
 
-              <p className="text-lg md:text-xl text-[#64748B] max-w-lg mx-auto lg:mx-0 mb-8 leading-relaxed" style={{animation: 'slideUp 0.6s ease-out 0.1s forwards', opacity: 0}}>
-                Discover verified flatmates and rental homes with zero brokerage across India. Safe, transparent, and stress-free.
-              </p>
+              <motion.p
+                variants={fadeUp}
+                className="mx-auto mb-9 max-w-xl text-base font-normal leading-relaxed text-[#6B6B6B] sm:text-lg lg:mx-0"
+              >
+                Discover verified flatmates and rental homes with zero brokerage. Move in with trust, not tension.
+              </motion.p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-3" style={{animation: 'fadeUp 0.8s ease-out 0.2s forwards', opacity: 0}}>
-                <Link to="/browse" className="btn-primary px-8 py-3.5 text-base">
-                  Start Browsing
-                  <ChevronRight size={18} />
-                </Link>
-                <Link to="#how-it-works" className="btn-secondary px-8 py-3.5 text-base"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    document.querySelector('#how-it-works')?.scrollIntoView({ behavior: 'smooth' });
-                  }}
+              <motion.div variants={fadeUp} className="mx-auto mb-6 w-full max-w-2xl lg:mx-0">
+                <form
+                  onSubmit={handleSearch}
+                  className="flex flex-col items-center gap-2 rounded-[2rem] border border-[#E5E5E5] bg-white p-2.5 shadow-lg transition-all hover:border-[#0A0A0A]/50 sm:flex-row sm:rounded-full"
                 >
-                  <Play size={16} />
-                  See How It Works
-                </Link>
-              </div>
-            </div>
-
-            <div className="flex-1 w-full max-w-lg lg:max-w-none hidden lg:block" style={{animation: 'fadeIn 0.6s ease-out 0.3s forwards', opacity: 0}}>
-              <HeroIllustration />
-            </div>
-          </div>
-        </div>
-
-        <div className="container-max relative z-20 -mt-20 md:-mt-24 pb-8">
-          <div className="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-[#E2E8F0] p-4 md:p-6 max-w-5xl mx-auto" style={{animation: 'slideUp 0.6s ease-out 0.3s forwards', opacity: 0}}>
-            <form onSubmit={handleSearch}>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3 md:gap-4">
-                <div className="input-icon">
-                  <MapPin className="icon" size={16} />
-                  <select
-                    value={searchCity}
-                    onChange={(e) => setSearchCity(e.target.value)}
-                    className="input pl-10"
-                  >
-                    {CITIES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="input-icon">
-                  <IndianRupee className="icon" size={16} />
-                  <select
-                    value={budget}
-                    onChange={(e) => setBudget(e.target.value)}
-                    className="input pl-10"
-                  >
-                    {BUDGETS.map((b) => (
-                      <option key={b} value={b}>{b}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="input-icon">
-                  <Users className="icon" size={16} />
-                  <select
-                    value={gender}
-                    onChange={(e) => setGender(e.target.value)}
-                    className="input pl-10"
-                  >
-                    {GENDERS.map((g) => (
-                      <option key={g} value={g}>{g}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <div className="input-icon">
-                  <Home className="icon" size={16} />
-                  <select
-                    value={roomType}
-                    onChange={(e) => setRoomType(e.target.value)}
-                    className="input pl-10"
-                  >
-                    {ROOM_TYPES.map((r) => (
-                      <option key={r} value={r}>{r}</option>
-                    ))}
-                  </select>
-                </div>
-
-                <button
-                  type="submit"
-                  className="btn-primary w-full !rounded-xl !py-3 text-sm lg:text-base !gap-2 relative overflow-hidden group/btn"
-                >
-                  <span className="absolute inset-0 bg-white/10 translate-y-full group-hover/btn:translate-y-0 transition-transform duration-300" />
-                  <Search size={18} className="relative z-10" />
-                  <span className="relative z-10">Search</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </section>
-
-      {/* FEATURED LISTINGS */}
-      <section className="py-20 md:py-28">
-        <div className="container-max">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-12">
-            <div>
-              <h2 className="section-title">Featured Listings</h2>
-              <p className="section-subtitle">Explore top-rated rooms across Indian cities</p>
-            </div>
-            <Link to="/browse" className="btn-secondary shrink-0">
-              View All Listings
-              <ArrowRight size={16} />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {DUMMY_LISTINGS.map((listing, i) => (
-              <div key={listing.id} style={{animation: `fadeUp 0.8s ease-out ${(i + 1) * 0.1}s forwards`, opacity: 0}}>
-                <ListingCard {...listing} />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* WHY CHOOSE NESTMATE */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="container-max">
-          <div className="text-center mb-16">
-            <h2 className="section-title">Why Choose NestMate</h2>
-            <p className="section-subtitle mx-auto">Everything you need to find the perfect flatmate, all in one place.</p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
-            {FEATURES.map((feature, i) => {
-              const Icon = feature.icon;
-              return (
-                <div
-                  key={feature.title}
-                  className="group relative bg-[#FAFAFA] rounded-2xl p-6 md:p-8 border border-[#E2E8F0] hover:border-[#14B8A6]/30 hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300"
-                  style={{animation: `fadeUp 0.8s ease-out ${(i + 1) * 0.1}s forwards`, opacity: 0}}
-                >
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-5 shadow-sm group-hover:shadow-md transition-all duration-300`}>
-                    <Icon size={22} className="text-white" />
+                  <div className="flex w-full flex-1 items-center gap-3 px-4 py-2">
+                    <Search size={20} className="shrink-0 text-[#6B6B6B]" />
+                    <input
+                      type="text"
+                      placeholder="Search by city, locality, or budget..."
+                      value={searchQuery}
+                      onChange={(event) => setSearchQuery(event.target.value)}
+                      className="w-full bg-transparent text-sm text-[#0A0A0A] placeholder-[#6B6B6B]/70 focus:outline-none"
+                    />
                   </div>
-                  <h3 className="font-display font-bold text-lg text-[#0F172A] mb-2">{feature.title}</h3>
-                  <p className="text-sm text-[#64748B] leading-relaxed">{feature.description}</p>
-                </div>
+
+                  <div className="flex w-full items-center gap-2 px-2 sm:w-auto">
+                    <select
+                      value={searchCity}
+                      onChange={(event) => setSearchCity(event.target.value)}
+                      className="shrink-0 cursor-pointer rounded-full border border-[#E5E5E5] bg-[#F7F7F7] px-4 py-2.5 text-xs font-semibold text-[#0A0A0A] focus:outline-none"
+                    >
+                      {CITIES.map((city) => (
+                        <option key={city} value={city}>{city}</option>
+                      ))}
+                    </select>
+
+                    <motion.button
+                      type="submit"
+                      whileHover={{ scale: 1.03 }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={spring}
+                      className="flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-7 py-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#14B8A6] sm:w-auto"
+                    >
+                      Search
+                      <ArrowRight size={14} />
+                    </motion.button>
+                  </div>
+                </form>
+              </motion.div>
+
+              <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
+                  <Link
+                    to="/browse"
+                    className="flex items-center gap-1.5 rounded-full bg-[#0A0A0A] px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-[#14B8A6]"
+                  >
+                    Start Browsing
+                    <ArrowRight size={13} />
+                  </Link>
+                </motion.div>
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
+                  <a
+                    href="#how-it-works"
+                    className="flex items-center gap-1.5 rounded-full border border-[#E5E5E5] bg-white px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] shadow-xs transition-all hover:border-[#0A0A0A]"
+                  >
+                    <Play size={12} />
+                    See How It Works
+                  </a>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              variants={fadeInRight}
+              initial="hidden"
+              animate="visible"
+              className="relative mx-auto flex min-h-[360px] w-full max-w-[760px] items-center justify-center overflow-visible px-0 py-2 sm:min-h-[460px] lg:min-h-[560px] xl:max-w-[840px]"
+            >
+              <img
+                src={bgImage}
+                alt="NestMate Line Art Illustration"
+                className="relative z-10 h-auto max-h-[390px] w-full max-w-[760px] scale-[1.12] object-contain mix-blend-multiply sm:max-h-[500px] lg:max-h-[620px] lg:scale-[1.2]"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="border-y border-[#E5E5E5] bg-white py-16"
+      >
+        <div className="container-max">
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+            className="grid grid-cols-1 gap-6 md:grid-cols-3"
+          >
+            {VALUE_PILLARS.map((pillar) => {
+              const Icon = pillar.icon;
+              return (
+                <motion.div
+                  key={pillar.title}
+                  variants={cardReveal}
+                  whileHover={{ y: -4, boxShadow: '0 16px 34px rgba(0, 0, 0, 0.08)' }}
+                  transition={spring}
+                  className="rounded-3xl border border-[#E5E5E5] bg-[#F7F7F7] p-8 transition-colors hover:border-[#0A0A0A]/30"
+                >
+                  <div className="mb-5 flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E5E5] bg-white text-[#0A0A0A] shadow-xs">
+                    <Icon size={18} />
+                  </div>
+                  <h3 className="mb-2 font-serif text-xl font-bold text-[#0A0A0A]">{pillar.title}</h3>
+                  <p className="text-sm leading-relaxed text-[#6B6B6B]">{pillar.description}</p>
+                </motion.div>
               );
             })}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.2 }}
+        className="bg-[#0A0A0A] py-24 text-white lg:py-32"
+      >
+        <div className="container-max">
+          <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
+            <motion.div variants={staggerContainer} className="max-w-xl">
+              <motion.span variants={fadeUp} className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
+                <Sparkles size={14} className="text-[#14B8A6]" />
+                Hassle-free matching
+              </motion.span>
+              <motion.h2 variants={fadeUp} className="mb-5 font-serif text-4xl font-extrabold leading-[1.03] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                Search less. Settle in with more confidence.
+              </motion.h2>
+              <motion.p variants={fadeUp} className="mb-8 text-base leading-relaxed text-white/60 sm:text-lg">
+                NestMate keeps verified rooms, lifestyle preferences, and direct conversations together so every shortlist feels clearer from the first message.
+              </motion.p>
+              <motion.div variants={fadeUp} className="grid gap-3 text-sm text-white/75 sm:grid-cols-2">
+                {['Verified profile cues', 'Budget-first browsing', 'Direct owner chat', 'Lifestyle compatibility'].map((item) => (
+                  <div key={item} className="flex items-center gap-2">
+                    <CheckCircle2 size={16} className="text-[#14B8A6]" />
+                    {item}
+                  </div>
+                ))}
+              </motion.div>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 28, scale: 0.96 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true, amount: 0.35 }}
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="relative mx-auto w-full max-w-2xl"
+            >
+              <div className="absolute -inset-6 rounded-[2.5rem] bg-white/5 blur-2xl" />
+              <div className="ticket-stub relative overflow-hidden rounded-t-[2rem] border border-white/15 bg-[#111111] p-4 shadow-2xl sm:p-6">
+                <div className="overflow-hidden rounded-[1.5rem] border border-white/10 bg-black">
+                  <img
+                    src={sharedLivingSpace}
+                    alt="NestMate shared living preview"
+                    className="h-72 w-full object-cover opacity-90 grayscale sm:h-80"
+                  />
+                </div>
+                <div className="grid gap-4 px-1 pb-8 pt-5 sm:grid-cols-[1fr_auto] sm:items-end">
+                  <div>
+                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#14B8A6]">NestMate shortlist</p>
+                    <h3 className="mt-2 font-serif text-2xl font-bold text-white">3 strong matches near your budget</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-white/50">A calmer way to compare homes, flatmates, and move-in fit.</p>
+                  </div>
+                  <div className="rounded-full border border-white/15 px-4 py-2 text-sm font-semibold text-white">
+                    92% Match
+                  </div>
+                </div>
+              </div>
+            </motion.div>
           </div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* HOW IT WORKS */}
-      <section id="how-it-works" className="py-20 md:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#FAFAFA] to-transparent" />
-        <div className="container-max relative z-10">
-          <div className="text-center mb-16">
-            <h2 className="section-title">How It Works</h2>
-            <p className="section-subtitle mx-auto">Three simple steps to find your perfect flatmate.</p>
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.18 }}
+        className="py-24 lg:py-32"
+      >
+        <div className="container-max">
+          <div className="mb-14 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <span className="section-eyebrow">Handpicked Homes</span>
+              <h2 className="section-title">Featured Listings</h2>
+              <p className="section-subtitle">Explore top-rated verified rooms across India</p>
+            </div>
+            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
+              <Link
+                to="/browse"
+                className="inline-flex shrink-0 items-center gap-2 rounded-full border border-[#E5E5E5] bg-white px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] transition-all hover:border-[#0A0A0A]"
+              >
+                View All Listings
+                <ArrowRight size={14} />
+              </Link>
+            </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
-            {STEPS.map((step, i) => {
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.18 }}
+            className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3"
+          >
+            {DUMMY_LISTINGS.map((listing) => (
+              <motion.div key={listing.id} variants={cardReveal} whileHover={{ y: -4 }} transition={spring}>
+                <ListingCard {...listing} />
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        id="how-it-works"
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.18 }}
+        className="border-t border-[#E5E5E5] bg-white py-24 lg:py-32"
+      >
+        <div className="container-max">
+          <div className="mx-auto mb-16 max-w-2xl text-center">
+            <span className="section-eyebrow mx-auto">Simple Process</span>
+            <h2 className="section-title">How NestMate Works</h2>
+            <p className="section-subtitle mx-auto">Three simple steps to find your ideal flatmate or rental room.</p>
+          </div>
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+            className="grid grid-cols-1 gap-8 md:grid-cols-3"
+          >
+            {STEPS.map((step) => {
               const Icon = step.icon;
               return (
-                <div
+                <motion.div
                   key={step.title}
-                  className="relative text-center"
-                  style={{animation: `fadeUp 0.8s ease-out ${(i + 1) * 0.1}s forwards`, opacity: 0}}
+                  variants={cardReveal}
+                  whileHover={{ y: -4, boxShadow: '0 16px 34px rgba(0, 0, 0, 0.08)' }}
+                  transition={spring}
+                  className="relative flex flex-col justify-between rounded-3xl border border-[#E5E5E5] bg-white p-8 transition-colors hover:border-[#0A0A0A]/30"
                 >
-                  <div className="relative mb-8 inline-flex">
-                    <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-[#14B8A6] to-[#0F766E] flex items-center justify-center shadow-lg shadow-teal-500/20">
-                      <Icon size={32} className="text-white" />
+                  <div>
+                    <div className="mb-8 flex items-center justify-between">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E5E5E5] bg-[#F7F7F7] text-[#0A0A0A]">
+                        <Icon size={20} />
+                      </div>
+                      <span className="font-serif text-2xl font-bold text-[#E5E5E5]">
+                        {step.step}
+                      </span>
                     </div>
-                    <span className="absolute -top-2 -right-2 w-8 h-8 bg-white border border-[#E2E8F0] rounded-full flex items-center justify-center text-xs font-bold text-[#14B8A6] shadow-sm">
-                      {step.step}
-                    </span>
+
+                    <h3 className="mb-3 font-serif text-xl font-bold text-[#0A0A0A]">{step.title}</h3>
+                    <p className="text-sm leading-relaxed text-[#6B6B6B]">{step.description}</p>
                   </div>
-
-                  <h3 className="font-display font-bold text-xl text-[#0F172A] mb-3">{step.title}</h3>
-                  <p className="text-sm text-[#64748B] leading-relaxed max-w-xs mx-auto">{step.description}</p>
-
-                  {i < STEPS.length - 1 && (
-                    <div className="hidden md:block absolute top-10 -right-6 w-12 h-0.5 bg-gradient-to-r from-[#14B8A6]/40 to-transparent" />
-                  )}
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
-      </section>
+      </motion.section>
 
-      {/* STATISTICS */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-[#14B8A6] to-[#0F766E]">
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.18 }}
+        className="bg-[#0A0A0A] py-24 text-white lg:py-32"
+      >
         <div className="container-max">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
-            {[
-              { icon: Building, value: 12000, suffix: '+', label: 'Verified Listings' },
-              { icon: Users, value: 5000, suffix: '+', label: 'Happy Tenants' },
-              { icon: Building, value: 50, suffix: '+', label: 'Cities Covered' },
-              { icon: Star, value: 48, suffix: '', label: 'Rating' },
-            ].map((stat, i) => {
-              const Icon = stat.icon;
-              const displayValue = stat.label === 'Rating' ? (
-                <span className="tabular-nums">4.8</span>
-              ) : (
-                <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-              );
-              return (
-                <div
-                  key={stat.label}
-                  className="text-center text-white"
-                  style={{animation: `fadeUp 0.8s ease-out ${(i + 1) * 0.1}s forwards`, opacity: 0}}
-                >
-                  <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-white/10 flex items-center justify-center backdrop-blur-sm">
-                    <Icon size={24} className="text-white" />
-                  </div>
-                  <p className="text-3xl md:text-4xl font-bold font-display mb-1">
-                    {displayValue}
-                  </p>
-                  <p className="text-sm text-teal-100/80">{stat.label}</p>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* TESTIMONIALS */}
-      <section className="py-20 md:py-28 bg-white">
-        <div className="container-max">
-          <div className="text-center mb-16">
-            <h2 className="section-title">Loved by Thousands</h2>
-            <p className="section-subtitle mx-auto">Hear from people who found their perfect flatmate on NestMate.</p>
+          <div className="mb-14 grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end">
+            <div>
+              <span className="mb-4 block text-xs font-semibold uppercase tracking-[0.2em] text-white/40">Real Experiences</span>
+              <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                Real stories.
+                <span className="block italic text-white/80">Real people.</span>
+              </h2>
+            </div>
+            <TrustBadge tone="dark" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-            {TESTIMONIALS.map((t, i) => (
-              <div
-                key={t.name}
-                className="bg-[#FAFAFA] rounded-2xl p-6 md:p-8 border border-[#E2E8F0] hover:border-[#14B8A6]/20 hover:shadow-card-hover transition-all duration-300"
-                style={{animation: `fadeUp 0.8s ease-out ${(i + 1) * 0.1}s forwards`, opacity: 0}}
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.25 }}
+            className="grid grid-cols-1 gap-6 md:grid-cols-3"
+          >
+            {TESTIMONIALS.map((testimonial) => (
+              <motion.div
+                key={testimonial.name}
+                variants={cardReveal}
+                whileHover={{ y: -4, boxShadow: '0 20px 40px rgba(0, 0, 0, 0.35)' }}
+                transition={spring}
+                className="flex min-h-[270px] flex-col justify-between rounded-3xl border border-white/10 bg-[#1A1A1A] p-8"
               >
-                <Quote size={24} className="text-[#14B8A6]/30 mb-4" />
-                <p className="text-sm text-[#64748B] leading-relaxed mb-6">&ldquo;{t.quote}&rdquo;</p>
-                <Stars rating={t.rating} />
-                <div className="flex items-center gap-3 mt-4 pt-4 border-t border-[#E2E8F0]">
-                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#14B8A6] to-[#0F766E] flex items-center justify-center text-white text-sm font-bold shadow-sm">
-                    {t.avatar}
+                <div>
+                  <div className="mb-5 font-serif text-5xl leading-none text-[#14B8A6]">“</div>
+                  <Stars rating={testimonial.rating} tone="dark" />
+                  <p className="text-sm font-medium leading-relaxed text-white/70">&ldquo;{testimonial.quote}&rdquo;</p>
+                </div>
+                <div className="mt-8 flex items-center gap-3 border-t border-white/10 pt-5">
+                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white text-xs font-bold text-[#0A0A0A] ring-2 ring-white/20">
+                    {testimonial.avatar}
                   </div>
                   <div>
-                    <p className="text-sm font-semibold text-[#0F172A]">{t.name}</p>
-                    <p className="text-xs text-[#64748B]">{t.role}</p>
+                    <p className="text-xs font-bold text-white">{testimonial.name}</p>
+                    <p className="text-[11px] text-white/40">{testimonial.locality}</p>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             ))}
+          </motion.div>
+        </div>
+      </motion.section>
+
+      <motion.section
+        variants={sectionReveal}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, amount: 0.25 }}
+        className="border-t border-[#E5E5E5] bg-white py-24"
+      >
+        <div className="container-max">
+          <div className="mx-auto max-w-4xl rounded-[2rem] bg-[#0A0A0A] p-10 text-center text-white shadow-xl lg:p-16">
+            <h2 className="mb-6 font-serif text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
+              Ready to Find Your Flatmate?
+            </h2>
+            <p className="mx-auto mb-10 max-w-xl text-base font-normal leading-relaxed text-white/60 sm:text-lg">
+              Join thousands of verified tenants and property owners. Zero brokerage, stress-free move-in.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
+                <Link
+                  to="/post-room"
+                  className="block w-full rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0A0A0A] transition-colors hover:bg-[#14B8A6] hover:text-white sm:w-auto"
+                >
+                  Post Free Ad
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
+                <Link
+                  to="/browse"
+                  className="block w-full rounded-full border border-white/15 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:w-auto"
+                >
+                  Browse Rooms
+                </Link>
+              </motion.div>
+            </div>
           </div>
         </div>
-      </section>
-
-      {/* CTA SECTION */}
-      <section className="py-20 md:py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#14B8A6] to-[#0F766E]" />
-        <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48Y2lyY2xlIGN4PSIzMCIgY3k9IjMwIiByPSIxIiBmaWxsPSJ3aGl0ZSIgb3BhY2l0eT0iMC4xIi8+PC9zdmc+')] opacity-30" />
-
-        <div className="container-max relative z-10 text-center">
-          <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-12">
-            <div className="text-left">
-              <h2 className="font-display text-3xl md:text-5xl font-bold text-white mb-6 leading-tight">
-                Ready to Find Your Perfect Flatmate?
-              </h2>
-              <p className="text-teal-50/80 text-lg md:text-xl mb-10 max-w-2xl leading-relaxed">
-                Join thousands of verified tenants and owners. Post your room for free or start browsing now.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-            <Link
-              to="/post-room"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white text-[#14B8A6] font-semibold rounded-xl hover:bg-teal-50 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 text-base gap-2"
-            >
-              <Home size={18} />
-              Post Free Ad
-            </Link>
-            <Link
-              to="/browse"
-              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 backdrop-blur-sm text-white font-semibold rounded-xl border border-white/25 hover:bg-white/20 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200 text-base gap-2"
-            >
-              <Search size={18} />
-              Browse Now
-            </Link>
-          </div>
-            </div>
-            <div className="hidden lg:block">
-              <img src={sharedLiving} alt="Shared living space" className="w-full h-auto rounded-2xl shadow-lg" />
-            </div>
-          </div>
-        </div>
-      </section>
+      </motion.section>
     </div>
   );
 }

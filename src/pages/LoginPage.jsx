@@ -46,32 +46,26 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-78px)] flex">
-      {/* Left - Branding/Illustration */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#14B8A6] via-[#0F766E] to-[#0D5E56] relative overflow-hidden items-center justify-center p-12">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white/20 rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] border border-white/10 rounded-full" />
-        </div>
+    <div className="min-h-[calc(100vh-80px)] flex bg-[#FAFAFA]">
+      {/* Left - Monochrome Branding/Illustration */}
+      <div className="hidden lg:flex lg:w-1/2 bg-[#0D0D12] text-white relative overflow-hidden items-center justify-center p-12">
         <div className="relative z-10 text-center max-w-md">
-          <div className="w-20 h-20 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-lg">
-            <Home size={40} className="text-white" />
+          <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 flex items-center justify-center mx-auto mb-8 shadow-sm">
+            <Home size={32} className="text-white" />
           </div>
-          <h1 className="font-display text-4xl font-bold text-white mb-4">
+          <h1 className="font-serif text-4xl font-extrabold text-white mb-4 tracking-tight">
             Welcome Back to NestMate
           </h1>
-          <p className="text-teal-100 text-lg leading-relaxed">
-            Find your perfect roommate, discover great spaces, and make your living experience unforgettable.
+          <p className="text-neutral-400 text-base leading-relaxed font-normal">
+            Find your perfect roommate, discover great spaces, and move in with trust.
           </p>
-          <div className="mt-10 space-y-4">
-            {['Connect with verified roommates', 'Browse premium listings', 'Safe & secure matching'].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 text-teal-50">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-                  <ArrowRight size={14} className="text-white" />
+          <div className="mt-10 space-y-3 max-w-xs mx-auto text-left">
+            {['Connect with verified roommates', 'Browse zero brokerage listings', 'Safe & secure matching'].map((item, i) => (
+              <div key={i} className="flex items-center gap-3 text-neutral-300">
+                <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <ArrowRight size={12} className="text-white" />
                 </div>
-                <span className="text-sm">{item}</span>
+                <span className="text-xs font-medium">{item}</span>
               </div>
             ))}
           </div>
@@ -79,40 +73,32 @@ export default function LoginPage() {
       </div>
 
       {/* Right - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10">
-        <div className="w-full max-w-md">
-          {/* Logo (mobile) */}
-          <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <div className="w-9 h-9 bg-gradient-to-br from-[#14B8A6] to-[#0F766E] rounded-xl flex items-center justify-center shadow-sm">
-              <span className="text-white font-display font-bold text-lg">N</span>
-            </div>
-            <span className="font-display font-bold text-xl text-[#0F172A]">NestMate</span>
-          </div>
-
-          <h2 className="font-display text-3xl font-bold text-[#0F172A] mb-2">Sign In</h2>
-          <p className="text-[#64748B] mb-8">Welcome back! Enter your credentials to continue.</p>
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
+        <div className="w-full max-w-md bg-white border border-[#E5E7EB] rounded-3xl p-8 sm:p-10 shadow-xs">
+          <h2 className="font-serif text-3xl font-bold text-[#0D0D12] mb-2 tracking-tight">Sign In</h2>
+          <p className="text-[#6B7280] text-sm mb-8">Welcome back! Enter your credentials to continue.</p>
 
           {error && (
-            <div className="flex items-center gap-3 p-4 mb-6 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
-              <AlertCircle size={18} className="shrink-0" />
+            <div className="flex items-center gap-3 p-4 mb-6 bg-rose-50 border border-rose-200 rounded-2xl text-rose-700 text-xs font-medium">
+              <AlertCircle size={16} className="shrink-0" />
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#0F172A]">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12]">
                 Email Address
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" />
+                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" />
                 <input
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pl-11 text-[#0F172A] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 focus:border-[#14B8A6] transition-all text-sm"
+                  className="w-full rounded-full border border-[#E5E7EB] bg-white px-4 py-3 pl-11 text-[#0D0D12] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#0D0D12]/20 focus:border-[#0D0D12] transition-all text-sm"
                   autoComplete="email"
                 />
               </div>
@@ -120,30 +106,30 @@ export default function LoginPage() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="block text-sm font-medium text-[#0F172A]">
+                <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12]">
                   Password
                 </label>
-                <Link to="/forgot-password" className="text-xs font-medium text-[#14B8A6] hover:text-[#0F766E] transition-colors">
+                <Link to="/forgot-password" className="text-xs font-medium text-[#0D0D12] underline hover:text-black">
                   Forgot password?
                 </Link>
               </div>
               <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" />
+                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={form.password}
                   onChange={handleChange}
                   placeholder="Enter your password"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pl-11 pr-11 text-[#0F172A] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 focus:border-[#14B8A6] transition-all text-sm"
+                  className="w-full rounded-full border border-[#E5E7EB] bg-white px-4 py-3 pl-11 pr-11 text-[#0D0D12] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#0D0D12]/20 focus:border-[#0D0D12] transition-all text-sm"
                   autoComplete="current-password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#64748B] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#0D0D12] transition-colors"
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
@@ -151,7 +137,7 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary !py-3.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3.5 bg-[#0D0D12] hover:bg-black text-white rounded-full text-sm font-semibold transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -163,16 +149,16 @@ export default function LoginPage() {
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <LogIn size={18} />
+                  <LogIn size={16} />
                   Sign In
                 </span>
               )}
             </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-[#64748B]">
+          <p className="mt-8 text-center text-xs text-[#6B7280]">
             Don&apos;t have an account?{' '}
-            <Link to="/signup" className="font-semibold text-[#14B8A6] hover:text-[#0F766E] transition-colors">
+            <Link to="/signup" className="font-bold text-[#0D0D12] underline hover:text-black">
               Create one
             </Link>
           </p>

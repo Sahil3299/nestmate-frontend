@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, MapPin, Home, IndianRupee, SlidersHorizontal, Search, Building, RotateCcw, Users } from 'lucide-react';
+import { X, MapPin, Home, IndianRupee, SlidersHorizontal, Building, RotateCcw, Users } from 'lucide-react';
 import ListingCard from '../components/ListingCard';
 import { ListingCardSkeleton } from '../components/ui/Skeleton';
 import { listingApi } from '../services/api';
@@ -88,28 +88,29 @@ export default function BrowseListingsPage() {
   ].filter(Boolean);
 
   return (
-    <div className="py-8 md:py-12">
+    <div className="py-12 md:py-16 bg-[#FAFAFA]">
       <div className="container-max">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="font-display text-3xl md:text-4xl font-bold text-[#0F172A] mb-2">
+        <div className="mb-10">
+          <span className="section-eyebrow">Explore Listings</span>
+          <h1 className="font-serif text-4xl md:text-5xl font-extrabold text-[#0D0D12] mb-2 tracking-tight">
             Browse Rooms &amp; Flatmates
           </h1>
-          <p className="text-[#64748B]">{loading ? 'Searching...' : `${filteredListings.length} listings found`}</p>
+          <p className="text-[#6B7280] text-sm md:text-base">{loading ? 'Searching...' : `${filteredListings.length} verified listings available`}</p>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
           {/* Sidebar Filters */}
           <div className="lg:col-span-1">
-            <div className="sticky top-24 space-y-6">
-              <div className="card p-6">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-display font-bold text-[#0F172A] flex items-center gap-2">
+            <div className="sticky top-28 space-y-6">
+              <div className="card p-6 bg-white border border-[#E5E7EB] rounded-2xl">
+                <div className="flex items-center justify-between mb-5 pb-4 border-b border-[#E5E7EB]">
+                  <h2 className="font-serif font-bold text-lg text-[#0D0D12] flex items-center gap-2">
                     <SlidersHorizontal size={16} />
                     Filters
                   </h2>
                   {activeFilters.length > 0 && (
-                    <button onClick={resetFilters} className="text-xs text-teal-600 hover:text-teal-700 font-medium flex items-center gap-1">
+                    <button onClick={resetFilters} className="text-xs text-[#0D0D12] underline font-semibold flex items-center gap-1">
                       <RotateCcw size={12} />
                       Reset
                     </button>
@@ -117,15 +118,15 @@ export default function BrowseListingsPage() {
                 </div>
 
                 {/* City Filter */}
-                <div className="mb-6 pb-6 border-b border-[#E2E8F0]">
-                  <label className="block text-sm font-semibold text-[#0F172A] mb-3 flex items-center gap-2">
-                    <MapPin size={14} />
+                <div className="mb-6 pb-6 border-b border-[#E5E7EB]">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12] mb-3 flex items-center gap-2">
+                    <MapPin size={14} className="text-[#6B7280]" />
                     City
                   </label>
                   <select
                     value={filters.city}
                     onChange={(e) => updateFilter('city', e.target.value)}
-                    className="input text-sm"
+                    className="input text-sm rounded-full"
                   >
                     {CITIES.map((city) => (
                       <option key={city} value={city}>{city}</option>
@@ -134,9 +135,9 @@ export default function BrowseListingsPage() {
                 </div>
 
                 {/* Room Type Filter */}
-                <div className="mb-6 pb-6 border-b border-[#E2E8F0]">
-                  <label className="block text-sm font-semibold text-[#0F172A] mb-3 flex items-center gap-2">
-                    <Home size={14} />
+                <div className="mb-6 pb-6 border-b border-[#E5E7EB]">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12] mb-3 flex items-center gap-2">
+                    <Home size={14} className="text-[#6B7280]" />
                     Room Type
                   </label>
                   <div className="space-y-2">
@@ -148,24 +149,24 @@ export default function BrowseListingsPage() {
                           value={type}
                           checked={filters.roomType === type}
                           onChange={(e) => updateFilter('roomType', e.target.value)}
-                          className="w-4 h-4 rounded accent-teal-500"
+                          className="w-4 h-4 rounded accent-[#0D0D12]"
                         />
-                        <span className="text-sm text-[#64748B]">{type}</span>
+                        <span className="text-sm text-[#6B7280]">{type}</span>
                       </label>
                     ))}
                   </div>
                 </div>
 
                 {/* Gender Preference Filter */}
-                <div className="mb-6 pb-6 border-b border-[#E2E8F0]">
-                  <label className="block text-sm font-semibold text-[#0F172A] mb-3 flex items-center gap-2">
-                    <Users size={14} />
+                <div className="mb-6 pb-6 border-b border-[#E5E7EB]">
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12] mb-3 flex items-center gap-2">
+                    <Users size={14} className="text-[#6B7280]" />
                     Gender Preference
                   </label>
                   <select
                     value={filters.gender}
                     onChange={(e) => updateFilter('gender', e.target.value)}
-                    className="input text-sm"
+                    className="input text-sm rounded-full"
                   >
                     <option value="">All Genders</option>
                     <option value="Male">Male</option>
@@ -176,8 +177,8 @@ export default function BrowseListingsPage() {
 
                 {/* Budget Range */}
                 <div>
-                  <label className="block text-sm font-semibold text-[#0F172A] mb-4 flex items-center gap-2">
-                    <IndianRupee size={14} />
+                  <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12] mb-4 flex items-center gap-2">
+                    <IndianRupee size={14} className="text-[#6B7280]" />
                     Budget: \u20B9{filters.budgetMin.toLocaleString()} - \u20B9{filters.budgetMax.toLocaleString()}
                   </label>
                   <div className="space-y-2">
@@ -188,7 +189,7 @@ export default function BrowseListingsPage() {
                       step="1000"
                       value={filters.budgetMin}
                       onChange={(e) => updateFilter('budgetMin', parseInt(e.target.value))}
-                      className="w-full accent-teal-500"
+                      className="w-full accent-[#0D0D12]"
                     />
                     <input
                       type="range"
@@ -197,7 +198,7 @@ export default function BrowseListingsPage() {
                       step="1000"
                       value={filters.budgetMax}
                       onChange={(e) => updateFilter('budgetMax', parseInt(e.target.value))}
-                      className="w-full accent-teal-500"
+                      className="w-full accent-[#0D0D12]"
                     />
                   </div>
                 </div>
@@ -207,13 +208,13 @@ export default function BrowseListingsPage() {
 
           {/* Main Content */}
           <div className="lg:col-span-3">
-            {/* Active Filters Chips */}
+            {/* Active Filters Chips (Neutral Hairline Badges) */}
             {activeFilters.length > 0 && (
               <div className="flex flex-wrap gap-2 mb-6">
                 {activeFilters.map((filter) => (
                   <div
                     key={filter.key}
-                    className="inline-flex items-center gap-2 bg-teal-50 border border-teal-200 text-teal-700 px-3 py-1.5 rounded-full text-sm font-medium"
+                    className="inline-flex items-center gap-2 bg-white border border-[#E5E7EB] text-[#0D0D12] px-3.5 py-1.5 rounded-full text-xs font-medium shadow-xs"
                   >
                     {filter.label}
                     <button
@@ -223,9 +224,9 @@ export default function BrowseListingsPage() {
                         else if (filter.key === 'gender') updateFilter('gender', '');
                         else if (filter.key === 'budget') resetFilters();
                       }}
-                      className="hover:text-teal-900"
+                      className="hover:text-black"
                     >
-                      <X size={16} />
+                      <X size={14} />
                     </button>
                   </div>
                 ))}
@@ -264,16 +265,16 @@ export default function BrowseListingsPage() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-20">
-                <Building size={48} className="mx-auto text-[#94a3b8] mb-4" />
-                <h3 className="font-display text-xl font-bold text-[#0F172A] mb-2">
+              <div className="text-center py-20 bg-white rounded-2xl border border-[#E5E7EB] p-8">
+                <Building size={48} className="mx-auto text-neutral-400 mb-4" />
+                <h3 className="font-serif text-xl font-bold text-[#0D0D12] mb-2">
                   No listings found
                 </h3>
-                <p className="text-[#64748B] mb-6">
+                <p className="text-[#6B7280] text-sm mb-6">
                   Try adjusting your filters to see more results
                 </p>
-                <button onClick={resetFilters} className="btn-primary">
-                  <RotateCcw size={16} />
+                <button onClick={resetFilters} className="px-6 py-2.5 bg-[#0D0D12] hover:bg-black text-white rounded-full text-xs font-semibold inline-flex items-center gap-2 transition-all">
+                  <RotateCcw size={14} />
                   Reset Filters
                 </button>
               </div>

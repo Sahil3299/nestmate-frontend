@@ -4,7 +4,6 @@ import { UserPlus, Mail, Lock, User, Eye, EyeOff, Home, CheckCircle, AlertCircle
 import toast from 'react-hot-toast';
 import { authApi } from '../services/api';
 import { useAuth } from '../contexts/AuthContext';
-import homeImage2 from '../assets/homeImage_2.png';
 
 export default function SignupPage() {
   const navigate = useNavigate();
@@ -54,30 +53,26 @@ export default function SignupPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-78px)] flex">
-      {/* Left - Branding/Illustration */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-[#14B8A6] via-[#0F766E] to-[#0D5E56] relative overflow-hidden items-center justify-center p-12">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-20 w-72 h-72 bg-white rounded-full blur-3xl" />
-          <div className="absolute bottom-20 right-20 w-96 h-96 bg-white rounded-full blur-3xl" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] border border-white/20 rounded-full" />
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] border border-white/10 rounded-full" />
-        </div>
+    <div className="min-h-[calc(100vh-80px)] flex bg-[#FAFAFA]">
+      {/* Left - Monochrome Branding/Illustration */}
+      <div className="hidden lg:flex lg:w-1/2 bg-[#0D0D12] text-white relative overflow-hidden items-center justify-center p-12">
         <div className="relative z-10 text-center max-w-md">
-          <img src={homeImage2} alt="NestMate" className="w-48 h-auto mx-auto mb-8 rounded-2xl" />
-          <h1 className="font-display text-4xl font-bold text-white mb-4">
+          <div className="w-16 h-16 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 flex items-center justify-center mx-auto mb-8 shadow-sm">
+            <Home size={32} className="text-white" />
+          </div>
+          <h1 className="font-serif text-4xl font-extrabold text-white mb-4 tracking-tight">
             Join NestMate Today
           </h1>
-          <p className="text-teal-100 text-lg leading-relaxed">
-            Create your account and start your journey to finding the perfect living arrangement.
+          <p className="text-neutral-400 text-base leading-relaxed font-normal">
+            Create your account and find verified roommates or list your room with zero brokerage.
           </p>
-          <div className="mt-10 space-y-4">
-            {['Create your profile in minutes', 'Connect with compatible roommates', 'Get personalized recommendations'].map((item, i) => (
-              <div key={i} className="flex items-center gap-3 text-teal-50">
-                <div className="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center shrink-0">
-                  <CheckCircle size={14} className="text-white" />
+          <div className="mt-10 space-y-3 max-w-xs mx-auto text-left">
+            {['Create your profile in minutes', 'Connect with compatible roommates', 'Get personalized room recommendations'].map((item, i) => (
+              <div key={i} className="flex items-center gap-3 text-neutral-300">
+                <div className="w-5 h-5 rounded-full bg-white/10 flex items-center justify-center shrink-0">
+                  <CheckCircle size={12} className="text-white" />
                 </div>
-                <span className="text-sm">{item}</span>
+                <span className="text-xs font-medium">{item}</span>
               </div>
             ))}
           </div>
@@ -85,113 +80,107 @@ export default function SignupPage() {
       </div>
 
       {/* Right - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-10">
-        <div className="w-full max-w-md">
-          {/* Logo (mobile) */}
-          <div className="lg:hidden flex items-center gap-2.5 mb-8">
-            <img src={homeImage2} alt="NestMate" className="h-9 w-auto" />
-            <span className="font-display font-bold text-xl text-[#0F172A]">NestMate</span>
-          </div>
-
-          <h2 className="font-display text-3xl font-bold text-[#0F172A] mb-2">Create Account</h2>
-          <p className="text-[#64748B] mb-8">Join the NestMate community and find your perfect match.</p>
+      <div className="w-full lg:w-1/2 flex items-center justify-center p-6 sm:p-12">
+        <div className="w-full max-w-md bg-white border border-[#E5E7EB] rounded-3xl p-8 sm:p-10 shadow-xs">
+          <h2 className="font-serif text-3xl font-bold text-[#0D0D12] mb-2 tracking-tight">Create Account</h2>
+          <p className="text-[#6B7280] text-sm mb-8">Join the NestMate community and find your perfect match.</p>
 
           {error && (
-            <div className="flex items-center gap-3 p-4 mb-6 bg-red-50 border border-red-200 rounded-xl text-red-700 text-sm">
-              <AlertCircle size={18} className="shrink-0" />
+            <div className="flex items-center gap-3 p-4 mb-6 bg-rose-50 border border-rose-200 rounded-2xl text-rose-700 text-xs font-medium">
+              <AlertCircle size={16} className="shrink-0" />
               {error}
             </div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#0F172A]">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12]">
                 Full Name
               </label>
               <div className="relative">
-                <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" />
+                <User size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" />
                 <input
                   type="text"
                   name="name"
                   value={form.name}
                   onChange={handleChange}
                   placeholder="John Doe"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pl-11 text-[#0F172A] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 focus:border-[#14B8A6] transition-all text-sm"
+                  className="w-full rounded-full border border-[#E5E7EB] bg-white px-4 py-3 pl-11 text-[#0D0D12] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#0D0D12]/20 focus:border-[#0D0D12] transition-all text-sm"
                   autoComplete="name"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#0F172A]">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12]">
                 Email Address
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" />
+                <Mail size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" />
                 <input
                   type="email"
                   name="email"
                   value={form.email}
                   onChange={handleChange}
                   placeholder="you@example.com"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pl-11 text-[#0F172A] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 focus:border-[#14B8A6] transition-all text-sm"
+                  className="w-full rounded-full border border-[#E5E7EB] bg-white px-4 py-3 pl-11 text-[#0D0D12] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#0D0D12]/20 focus:border-[#0D0D12] transition-all text-sm"
                   autoComplete="email"
                 />
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#0F172A]">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12]">
                 Password
               </label>
               <div className="relative">
-                <Lock size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#94a3b8] pointer-events-none" />
+                <Lock size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] pointer-events-none" />
                 <input
                   type={showPassword ? 'text' : 'password'}
                   name="password"
                   value={form.password}
                   onChange={handleChange}
                   placeholder="Min. 8 characters"
-                  className="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 pl-11 pr-11 text-[#0F172A] placeholder-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#14B8A6]/30 focus:border-[#14B8A6] transition-all text-sm"
+                  className="w-full rounded-full border border-[#E5E7EB] bg-white px-4 py-3 pl-11 pr-11 text-[#0D0D12] placeholder-[#9CA3AF] focus:outline-none focus:ring-2 focus:ring-[#0D0D12]/20 focus:border-[#0D0D12] transition-all text-sm"
                   autoComplete="new-password"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#94a3b8] hover:text-[#64748B] transition-colors"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9CA3AF] hover:text-[#0D0D12] transition-colors"
                 >
-                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                  {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
               </div>
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-[#0F172A]">
+              <label className="block text-xs font-semibold uppercase tracking-wider text-[#0D0D12]">
                 I want to
               </label>
               <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
                   onClick={() => setForm({ ...form, role: 'seeker' })}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
+                  className={`flex flex-col items-center gap-1.5 p-3.5 rounded-2xl border transition-all ${
                     form.role === 'seeker'
-                      ? 'border-[#14B8A6] bg-teal-50 text-[#0F766E]'
-                      : 'border-[#E2E8F0] bg-white text-[#64748B] hover:border-slate-300'
+                      ? 'border-[#0D0D12] bg-[#0D0D12] text-white'
+                      : 'border-[#E5E7EB] bg-white text-[#6B7280] hover:border-neutral-400'
                   }`}
                 >
-                  <Home size={24} />
+                  <Home size={20} />
                   <span className="text-xs font-semibold">Find a Room</span>
                 </button>
                 <button
                   type="button"
                   onClick={() => setForm({ ...form, role: 'host' })}
-                  className={`flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all ${
+                  className={`flex flex-col items-center gap-1.5 p-3.5 rounded-2xl border transition-all ${
                     form.role === 'host'
-                      ? 'border-[#14B8A6] bg-teal-50 text-[#0F766E]'
-                      : 'border-[#E2E8F0] bg-white text-[#64748B] hover:border-slate-300'
+                      ? 'border-[#0D0D12] bg-[#0D0D12] text-white'
+                      : 'border-[#E5E7EB] bg-white text-[#6B7280] hover:border-neutral-400'
                   }`}
                 >
-                  <UserPlus size={24} />
+                  <UserPlus size={20} />
                   <span className="text-xs font-semibold">List a Room</span>
                 </button>
               </div>
@@ -200,7 +189,7 @@ export default function SignupPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full btn-primary !py-3.5 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full py-3.5 bg-[#0D0D12] hover:bg-black text-white rounded-full text-sm font-semibold transition-all disabled:opacity-50 flex items-center justify-center gap-2 shadow-sm"
             >
               {loading ? (
                 <span className="flex items-center gap-2">
@@ -212,16 +201,16 @@ export default function SignupPage() {
                 </span>
               ) : (
                 <span className="flex items-center gap-2">
-                  <UserPlus size={18} />
+                  <UserPlus size={16} />
                   Create Account
                 </span>
               )}
             </button>
           </form>
 
-          <p className="mt-8 text-center text-sm text-[#64748B]">
+          <p className="mt-8 text-center text-xs text-[#6B7280]">
             Already have an account?{' '}
-            <Link to="/login" className="font-semibold text-[#14B8A6] hover:text-[#0F766E] transition-colors">
+            <Link to="/login" className="font-bold text-[#0D0D12] underline hover:text-black">
               Sign In
             </Link>
           </p>

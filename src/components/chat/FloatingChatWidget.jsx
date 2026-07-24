@@ -68,8 +68,8 @@ function WidgetTriggerButton({ isOpen, onClick }) {
       className={cn(
         "relative flex items-center justify-center w-14 h-14 rounded-full text-white shadow-xl hover:scale-105 active:scale-95 transition-all duration-200",
         isOpen
-          ? "bg-slate-800 hover:bg-slate-900"
-          : "bg-gradient-to-r from-teal-500 to-emerald-500 hover:from-teal-600 hover:to-emerald-600"
+          ? "bg-[#0A0A0A] hover:bg-[#0A0A0A]"
+          : "bg-[#0A0A0A] hover:bg-[#14B8A6]"
       )}
     >
       {isOpen ? (
@@ -78,7 +78,7 @@ function WidgetTriggerButton({ isOpen, onClick }) {
         <MessageCircle size={24} />
       )}
       {unreadCount > 0 && !isOpen && (
-        <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
+        <span className="absolute -top-1.5 -right-1.5 bg-[#14B8A6] text-white font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
           {unreadCount}
         </span>
       )}
