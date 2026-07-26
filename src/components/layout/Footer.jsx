@@ -1,8 +1,6 @@
 import { Link } from "react-router-dom";
 import { ArrowUpRight, Shield } from "lucide-react";
 import logo from "../../assets/logo.png";
-import cardImage from "../../assets/card.png";
-import sharedLivingSpace from "../../assets/shared_living_space.png";
 
 const FOOTER_LINKS = {
   Index: [
@@ -63,37 +61,11 @@ function SocialIcon({ href, label, children }) {
   );
 }
 
-function PreviewCard({ image, title, className }) {
-  return (
-    <div className={`absolute hidden overflow-hidden rounded-[1.5rem] border border-white/10 bg-white/5 shadow-2xl md:block ${className}`}>
-      <img src={image} alt={title} className="h-full w-full object-cover grayscale" />
-    </div>
-  );
-}
-
 export default function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-white/10 bg-[#0A0A0A] text-white">
       <div className="pointer-events-none absolute inset-x-0 top-0 h-40 bg-[radial-gradient(circle_at_50%_0%,rgba(255,255,255,0.12),transparent_55%)]" />
       <div className="container-max relative pt-24 lg:pt-28">
-        <div className="relative mb-16 hidden h-28 md:block">
-          <PreviewCard
-            image={sharedLivingSpace}
-            title="NestMate living preview"
-            className="left-8 top-4 h-28 w-44 -rotate-6 opacity-50"
-          />
-          <PreviewCard
-            image={cardImage}
-            title="NestMate home preview"
-            className="left-1/2 top-0 h-32 w-52 -translate-x-1/2 opacity-70"
-          />
-          <PreviewCard
-            image={sharedLivingSpace}
-            title="NestMate room preview"
-            className="right-8 top-5 h-28 w-44 rotate-6 opacity-50"
-          />
-        </div>
-
         <div className="grid grid-cols-2 gap-8 pb-16 md:grid-cols-5 lg:gap-12">
           <div className="col-span-2 md:col-span-2">
             <Link to="/" className="mb-5 flex items-center gap-3">

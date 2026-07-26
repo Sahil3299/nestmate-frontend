@@ -18,8 +18,17 @@ export default function Navbar() {
   };
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 15);
-    window.addEventListener('scroll', handleScroll);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 60);
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -51,12 +60,16 @@ export default function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 px-3 pb-2 pt-2 transition-all duration-300 sm:px-6">
+    <header
+      className={`sticky top-0 z-50 transition-all duration-300 ${
+        scrolled ? 'px-4 pt-3 pb-2 sm:px-6' : 'px-0 pt-2 pb-2'
+      }`}
+    >
       <nav
-        className={`max-w-6xl mx-auto rounded-full transition-all duration-300 px-4 sm:px-6 py-2.5 flex items-center justify-between border ${
+        className={`transition-all duration-300 px-4 sm:px-6 py-2.5 flex items-center justify-between border ${
           scrolled
-            ? 'bg-white/95 backdrop-blur-xl border-[#E5E5E5] shadow-md'
-            : 'bg-white/90 backdrop-blur-md border-[#E5E5E5] shadow-sm'
+            ? 'max-w-6xl mx-auto rounded-full bg-white border-[#E5E5E5] shadow-lg'
+            : 'rounded-none bg-white border-transparent shadow-none'
         }`}
       >
         {/* Left: Brand Logo */}

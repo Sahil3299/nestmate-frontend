@@ -1,22 +1,23 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { motion, useReducedMotion } from 'framer-motion';
 import {
   ArrowRight,
   CheckCircle2,
   Home,
   IndianRupee,
   MessageCircle,
-  Play,
   Search,
   Shield,
   Sparkles,
   Star,
+  User,
   Users,
 } from 'lucide-react';
 import ListingCard from '../components/ListingCard';
 import bgImage from '../assets/Bg.png';
 import sharedLivingSpace from '../assets/shared_living_space.png';
+import infoCard from '../assets/info_card.png';
+import cardImg from '../assets/card.png';
 
 const DUMMY_LISTINGS = [
   {
@@ -40,7 +41,7 @@ const DUMMY_LISTINGS = [
     city: 'Mumbai',
     price: 35000,
     roomType: '2BHK',
-    image: 'https://images.unsplash.com/photo-1501699686415-ba1eb9e88213?w=600&h=400&fit=crop',
+    image: 'sharedLivingSpace',
     matchScore: 85,
     preferences: ['Professional', 'Early sleeper'],
     gender: 'Male',
@@ -63,7 +64,6 @@ const DUMMY_LISTINGS = [
   },
 ];
 
-const CITIES = ['Mumbai', 'Pune', 'Bangalore', 'Thane', 'Delhi', 'Hyderabad'];
 const AVATARS = ['AM', 'SK', 'RV'];
 
 const VALUE_PILLARS = [
@@ -89,19 +89,22 @@ const STEPS = [
     icon: Search,
     title: 'Search & Filter',
     description: 'Explore verified rooms and roommate profiles by city, budget, and lifestyle preferences.',
-    step: '01'
+    step: '01',
+    image: infoCard
   },
   {
     icon: MessageCircle,
     title: 'Connect & Visit',
     description: 'Message directly to schedule a visit or virtual walkthrough with zero brokerage.',
-    step: '02'
+    step: '02',
+    image: cardImg
   },
   {
     icon: Home,
     title: 'Move In Safely',
     description: 'Finalize agreements stress-free and settle into your new home with verified trust.',
-    step: '03'
+    step: '03',
+    image: infoCard
   },
 ];
 
@@ -177,6 +180,31 @@ const cardReveal = {
   },
 };
 
+const hiwHeaderVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
+const hiwContainerVariants = {
+  hidden: {},
+  visible: { transition: { staggerChildren: 0.18 } },
+};
+
+const hiwCardVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
+};
+
+const hiwIconVariants = {
+  hidden: { scale: 0, rotate: -10 },
+  visible: { scale: 1, rotate: 0, transition: { type: 'spring', stiffness: 300, damping: 20, delay: 0.1 } },
+};
+
+const hiwNumberVariants = {
+  hidden: { opacity: 0 },
+  visible: { opacity: 1, transition: { duration: 0.3, delay: 0.2 } },
+};
+
 function Stars({ rating, tone = 'light' }) {
   const activeClass = tone === 'dark' ? 'fill-white text-white' : 'fill-[#0A0A0A] text-[#0A0A0A]';
   const inactiveClass = tone === 'dark' ? 'text-white/20' : 'text-[#E5E5E5]';
@@ -241,17 +269,7 @@ function TrustBadge({ tone = 'light' }) {
 }
 
 export default function HomePage() {
-  const navigate = useNavigate();
-  const [searchQuery, setSearchQuery] = useState('');
-  const [searchCity, setSearchCity] = useState('Mumbai');
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-    const params = new URLSearchParams();
-    if (searchQuery) params.set('search', searchQuery);
-    if (searchCity) params.set('city', searchCity);
-    navigate(`/browse?${params.toString()}`);
-  };
+  const prefersReducedMotion = useReducedMotion();
 
   return (
     <div className="w-full overflow-x-hidden bg-[#F7F7F7]">
@@ -262,84 +280,52 @@ export default function HomePage() {
               variants={staggerContainer}
               initial="hidden"
               animate="visible"
-              className="max-w-2xl text-center lg:text-left"
+              className="max-w-xl text-center lg:text-left"
             >
-              <TrustBadge />
-
-              <h1 className="mt-8 mb-6 font-serif text-[clamp(4rem,8vw,7.4rem)] font-black leading-[0.92] tracking-[-0.055em] text-[#0A0A0A]">
-                {['Find Your', 'Perfect', 'Flatmate in', 'Mumbai'].map((line) => (
-                  <motion.span key={line} variants={fadeUp} className="block">
-                    {line}
-                  </motion.span>
-                ))}
-              </h1>
-
               <motion.p
                 variants={fadeUp}
-                className="mx-auto mb-9 max-w-xl text-base font-normal leading-relaxed text-[#6B6B6B] sm:text-lg lg:mx-0"
+                className="mb-4 text-sm font-medium tracking-wide text-[#6B6B6B] sm:text-base"
               >
-                Discover verified flatmates and rental homes with zero brokerage. Move in with trust, not tension.
+                Move in with trust, not tension
               </motion.p>
 
-              <motion.div variants={fadeUp} className="mx-auto mb-6 w-full max-w-2xl lg:mx-0">
-                <form
-                  onSubmit={handleSearch}
-                  className="flex flex-col items-center gap-2 rounded-[2rem] border border-[#E5E5E5] bg-white p-2.5 shadow-lg transition-all hover:border-[#0A0A0A]/50 sm:flex-row sm:rounded-full"
-                >
-                  <div className="flex w-full flex-1 items-center gap-3 px-4 py-2">
-                    <Search size={20} className="shrink-0 text-[#6B6B6B]" />
-                    <input
-                      type="text"
-                      placeholder="Search by city, locality, or budget..."
-                      value={searchQuery}
-                      onChange={(event) => setSearchQuery(event.target.value)}
-                      className="w-full bg-transparent text-sm text-[#0A0A0A] placeholder-[#6B6B6B]/70 focus:outline-none"
-                    />
-                  </div>
+              <motion.h1
+                variants={fadeUp}
+                className="mb-8 font-serif text-4xl font-black leading-[1.08] tracking-[-0.03em] text-[#0A0A0A] sm:text-5xl lg:text-[3.25rem] xl:text-6xl"
+              >
+                Find Your Perfect Flatmate in Mumbai
+              </motion.h1>
 
-                  <div className="flex w-full items-center gap-2 px-2 sm:w-auto">
-                    <select
-                      value={searchCity}
-                      onChange={(event) => setSearchCity(event.target.value)}
-                      className="shrink-0 cursor-pointer rounded-full border border-[#E5E5E5] bg-[#F7F7F7] px-4 py-2.5 text-xs font-semibold text-[#0A0A0A] focus:outline-none"
+              <motion.div
+                variants={fadeUp}
+                className="mb-8 flex items-center justify-center gap-3 lg:justify-start"
+              >
+                <div className="flex -space-x-2.5">
+                  {[0, 1, 2].map((i) => (
+                    <div
+                      key={i}
+                      className="flex h-9 w-9 items-center justify-center rounded-full border-[3px] border-[#F7F7F7] bg-[#0A0A0A]"
+                      style={{ zIndex: 3 - i }}
                     >
-                      {CITIES.map((city) => (
-                        <option key={city} value={city}>{city}</option>
-                      ))}
-                    </select>
-
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={spring}
-                      className="flex w-full shrink-0 items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-7 py-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#14B8A6] sm:w-auto"
-                    >
-                      Search
-                      <ArrowRight size={14} />
-                    </motion.button>
-                  </div>
-                </form>
+                      <User size={16} className="text-white" />
+                    </div>
+                  ))}
+                </div>
+                <span className="text-sm font-medium text-[#6B6B6B]">
+                  Trusted by verified users across Mumbai
+                </span>
               </motion.div>
 
-              <motion.div variants={fadeUp} className="flex flex-wrap items-center justify-center gap-3 lg:justify-start">
+              <motion.div variants={fadeUp}>
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
                   <Link
                     to="/browse"
-                    className="flex items-center gap-1.5 rounded-full bg-[#0A0A0A] px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-[#14B8A6]"
+                    className="inline-flex items-center gap-2.5 rounded-full border border-[#E5E5E5] bg-white px-6 py-3 text-sm font-semibold text-[#0A0A0A] shadow-sm transition-all hover:border-[#0A0A0A]/50 hover:shadow-md"
                   >
-                    Start Browsing
-                    <ArrowRight size={13} />
+                    <Search size={16} className="text-[#6B6B6B]" />
+                    Start your search
+                    <ArrowRight size={14} className="text-[#6B6B6B]" />
                   </Link>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
-                  <a
-                    href="#how-it-works"
-                    className="flex items-center gap-1.5 rounded-full border border-[#E5E5E5] bg-white px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] shadow-xs transition-all hover:border-[#0A0A0A]"
-                  >
-                    <Play size={12} />
-                    See How It Works
-                  </a>
                 </motion.div>
               </motion.div>
             </motion.div>
@@ -348,12 +334,12 @@ export default function HomePage() {
               variants={fadeInRight}
               initial="hidden"
               animate="visible"
-              className="relative mx-auto flex min-h-[360px] w-full max-w-[760px] items-center justify-center overflow-visible px-0 py-2 sm:min-h-[460px] lg:min-h-[560px] xl:max-w-[840px]"
+              className="relative mx-auto flex min-h-[280px] w-full max-w-[640px] items-center justify-center overflow-visible px-0 py-2 sm:min-h-[360px] lg:min-h-[440px] xl:max-w-[760px]"
             >
               <img
                 src={bgImage}
                 alt="NestMate Line Art Illustration"
-                className="relative z-10 h-auto max-h-[390px] w-full max-w-[760px] scale-[1.12] object-contain mix-blend-multiply sm:max-h-[500px] lg:max-h-[620px] lg:scale-[1.2]"
+                className="relative z-10 h-auto max-h-[320px] w-full max-w-[640px] object-contain mix-blend-multiply sm:max-h-[420px] lg:max-h-[520px]"
               />
             </motion.div>
           </div>
@@ -440,7 +426,7 @@ export default function HomePage() {
                   <img
                     src={sharedLivingSpace}
                     alt="NestMate shared living preview"
-                    className="h-72 w-full object-cover opacity-90 grayscale sm:h-80"
+                    className="h-72 w-full object-cover sm:h-80"
                   />
                 </div>
                 <div className="grid gap-4 px-1 pb-8 pt-5 sm:grid-cols-[1fr_auto] sm:items-end">
@@ -502,24 +488,29 @@ export default function HomePage() {
 
       <motion.section
         id="how-it-works"
-        variants={sectionReveal}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.18 }}
         className="border-t border-[#E5E5E5] bg-white py-24 lg:py-32"
       >
         <div className="container-max">
-          <div className="mx-auto mb-16 max-w-2xl text-center">
+          <motion.div
+            variants={prefersReducedMotion ? undefined : hiwHeaderVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.3 }}
+            className="mx-auto mb-16 max-w-2xl text-center"
+          >
             <span className="section-eyebrow mx-auto">Simple Process</span>
             <h2 className="section-title">How NestMate Works</h2>
             <p className="section-subtitle mx-auto">Three simple steps to find your ideal flatmate or rental room.</p>
-          </div>
+          </motion.div>
 
           <motion.div
-            variants={staggerContainer}
+            variants={prefersReducedMotion ? undefined : hiwContainerVariants}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
+            viewport={{ once: true, amount: 0.2 }}
             className="grid grid-cols-1 gap-8 md:grid-cols-3"
           >
             {STEPS.map((step) => {
@@ -527,19 +518,37 @@ export default function HomePage() {
               return (
                 <motion.div
                   key={step.title}
-                  variants={cardReveal}
-                  whileHover={{ y: -4, boxShadow: '0 16px 34px rgba(0, 0, 0, 0.08)' }}
-                  transition={spring}
-                  className="relative flex flex-col justify-between rounded-3xl border border-[#E5E5E5] bg-white p-8 transition-colors hover:border-[#0A0A0A]/30"
+                  variants={prefersReducedMotion ? undefined : hiwCardVariants}
+                  whileHover={
+                    prefersReducedMotion
+                      ? undefined
+                      : { y: -8, boxShadow: '0 12px 24px rgba(0,0,0,0.08)' }
+                  }
+                  transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  className="relative flex flex-col justify-between overflow-hidden rounded-3xl border border-[#E5E5E5] bg-white p-8 transition-colors hover:border-[#0A0A0A]/30"
                 >
                   <div>
+                    <div className="mb-4 overflow-hidden rounded-2xl border border-[#E5E5E5] bg-[#F7F7F7]">
+                      <img
+                        src={step.image}
+                        alt={step.title}
+                        className="h-36 w-full object-cover"
+                      />
+                    </div>
+
                     <div className="mb-8 flex items-center justify-between">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E5E5E5] bg-[#F7F7F7] text-[#0A0A0A]">
+                      <motion.div
+                        variants={prefersReducedMotion ? undefined : hiwIconVariants}
+                        className="flex h-12 w-12 items-center justify-center rounded-full border border-[#E5E5E5] bg-[#F7F7F7] text-[#0A0A0A]"
+                      >
                         <Icon size={20} />
-                      </div>
-                      <span className="font-serif text-2xl font-bold text-[#E5E5E5]">
+                      </motion.div>
+                      <motion.span
+                        variants={prefersReducedMotion ? undefined : hiwNumberVariants}
+                        className="font-serif text-2xl font-bold text-[#E5E5E5]"
+                      >
                         {step.step}
-                      </span>
+                      </motion.span>
                     </div>
 
                     <h3 className="mb-3 font-serif text-xl font-bold text-[#0A0A0A]">{step.title}</h3>
@@ -606,42 +615,89 @@ export default function HomePage() {
         </div>
       </motion.section>
 
-      <motion.section
-        variants={sectionReveal}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true, amount: 0.25 }}
-        className="border-t border-[#E5E5E5] bg-white py-24"
-      >
+      <section className="bg-white py-24 lg:py-32">
         <div className="container-max">
-          <div className="mx-auto max-w-4xl rounded-[2rem] bg-[#0A0A0A] p-10 text-center text-white shadow-xl lg:p-16">
-            <h2 className="mb-6 font-serif text-3xl font-extrabold leading-tight tracking-tight sm:text-5xl">
-              Ready to Find Your Flatmate?
-            </h2>
-            <p className="mx-auto mb-10 max-w-xl text-base font-normal leading-relaxed text-white/60 sm:text-lg">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
+            className="relative mx-auto max-w-4xl overflow-hidden rounded-[2rem] bg-[#0A0A0A] p-12 text-center text-white shadow-2xl lg:p-20"
+          >
+            <div className="pointer-events-none absolute -left-20 -top-20 h-64 w-64 rounded-full bg-[#14B8A6]/10 blur-3xl" />
+            <div className="pointer-events-none absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-[#14B8A6]/8 blur-3xl" />
+
+            <motion.span
+              initial={{ opacity: 0, y: 12 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
+              className="mb-5 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#14B8A6]"
+            >
+              Get started
+            </motion.span>
+
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.1 }}
+              className="mb-5 font-serif text-3xl font-extrabold leading-tight tracking-tight text-white sm:text-4xl lg:text-5xl"
+            >
+              Your next home is one message away
+            </motion.h2>
+
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.45, ease: 'easeOut', delay: 0.15 }}
+              className="mx-auto mb-6 max-w-xl text-sm font-normal leading-relaxed text-white/50 sm:text-base"
+            >
               Join thousands of verified tenants and property owners. Zero brokerage, stress-free move-in.
-            </p>
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.4, delay: 0.2 }}
+              className="mb-10 flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs font-medium text-white/40"
+            >
+              <span>25,000+ tenants</span>
+              <span className="hidden sm:inline">•</span>
+              <span>Zero brokerage</span>
+              <span className="hidden sm:inline">•</span>
+              <span>Verified owners</span>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 14 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.3 }}
+              transition={{ duration: 0.5, ease: 'easeOut', delay: 0.25 }}
+              className="flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
+            >
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={spring} className="w-full sm:w-auto">
                 <Link
                   to="/post-room"
-                  className="block w-full rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0A0A0A] transition-colors hover:bg-[#14B8A6] hover:text-white sm:w-auto"
+                  className="flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-[#0A0A0A] shadow-md transition-all duration-200 hover:bg-[#14B8A6] hover:text-white hover:shadow-lg sm:w-auto"
                 >
                   Post Free Ad
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
+              <motion.div whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.97 }} transition={spring} className="w-full sm:w-auto">
                 <Link
                   to="/browse"
-                  className="block w-full rounded-full border border-white/15 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:w-auto"
+                  className="flex h-12 items-center justify-center rounded-full border border-white/20 bg-white/10 px-8 text-sm font-semibold text-white backdrop-blur-sm transition-all duration-200 hover:border-white/40 hover:bg-white/15 sm:w-auto"
                 >
                   Browse Rooms
                 </Link>
               </motion.div>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
-      </motion.section>
+      </section>
     </div>
   );
 }
