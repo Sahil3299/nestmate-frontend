@@ -74,12 +74,12 @@ export default function Navbar() {
       >
         {/* Left: Brand Logo */}
         <Link to="/" className="flex items-center gap-2 group shrink-0">
-          <img src={logo} alt="NestMate" className="h-10 sm:h-11 w-auto" />
-          <div className="hidden sm:block">
-            <span className="font-serif font-extrabold text-lg text-[#0A0A0A] tracking-tight leading-none block">
+          <img src={logo} alt="NestMate" className="h-8 w-8 object-cover sm:h-11 sm:w-auto" />
+          <div className="block">
+            <span className="font-serif font-extrabold text-base text-[#0A0A0A] tracking-tight leading-none block sm:text-lg">
               NestMate
             </span>
-            <span className="block text-[9px] text-[#6B6B6B] font-semibold tracking-[0.2em] uppercase mt-0.5">
+            <span className="mt-0.5 block text-[8px] font-semibold uppercase tracking-[0.18em] text-[#6B6B6B] sm:text-[9px] sm:tracking-[0.2em]">
               Find Your Match
             </span>
           </div>

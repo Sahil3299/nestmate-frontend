@@ -1,30 +1,27 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, CheckCircle2, Home, MessageCircle, Shield, Sparkles, Users } from 'lucide-react';
-import sharedLivingSpace from '../assets/shared_living_space.png';
+import { ArrowRight, Home, MessageCircle, Search, Shield, Users } from 'lucide-react';
+import sharedLivingSpace from '../assets/nestmatebg.png';
+import cityIllustration from '../assets/homeimage_2.png';
 
 const spring = { type: 'spring', stiffness: 320, damping: 24 };
 
 const staggerContainer = {
   hidden: {},
-  visible: {
-    transition: {
-      staggerChildren: 0.1,
-    },
-  },
+  visible: { transition: { staggerChildren: 0.1 } },
 };
 
 const fadeUp = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 22 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.45, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: 0.48, ease: [0.22, 1, 0.36, 1] },
   },
 };
 
 const sectionReveal = {
-  hidden: { opacity: 0, y: 36 },
+  hidden: { opacity: 0, y: 28 },
   visible: {
     opacity: 1,
     y: 0,
@@ -32,87 +29,115 @@ const sectionReveal = {
   },
 };
 
-const STATS = [
-  { value: '12,000+', label: 'matched flatmates & tenants' },
-  { value: '6', label: 'cities covered' },
-  { value: '7 days', label: 'average shortlist window' },
-];
-
 const VALUES = [
   {
     icon: Shield,
-    title: 'Trust first',
-    description: 'We design around verified signals, safer conversations, and clearer decisions from the beginning.',
+    title: 'Safe & Trusted',
+    description: 'Verified users and quality listings.',
   },
   {
     icon: Users,
-    title: 'Lifestyle fit',
-    description: 'A good home match is more than rent. Habits, timing, and expectations matter too.',
+    title: 'Better Matches',
+    description: 'Compatibility that actually matters.',
   },
   {
     icon: MessageCircle,
-    title: 'Direct connection',
-    description: 'NestMate keeps communication simple so tenants, owners, and flatmates can move faster.',
+    title: 'Zero Brokerage',
+    description: 'No hidden charges. Ever.',
   },
   {
     icon: Home,
-    title: 'Calmer moving',
-    description: 'The goal is less confusion, fewer middlemen, and a smoother path into the right home.',
+    title: 'Built for You',
+    description: 'Made for students and young professionals.',
   },
 ];
 
+const PROCESS = [
+  {
+    icon: Search,
+    step: '1',
+    title: 'Discover',
+    description: 'Explore verified rooms and flatmates.',
+  },
+  {
+    icon: Users,
+    step: '2',
+    title: 'Match',
+    description: 'Find compatible flatmates and rooms.',
+  },
+  {
+    icon: MessageCircle,
+    step: '3',
+    title: 'Connect',
+    description: 'Chat, plan, and get to know each other.',
+  },
+  {
+    icon: Home,
+    step: '4',
+    title: 'Move In',
+    description: 'Move in confidently and start your chapter.',
+  },
+];
+
+const STATS = [
+  { value: '10K+', label: 'Verified Listings' },
+  { value: '5K+', label: 'Active Users' },
+  { value: '2K+', label: 'Successful Matches' },
+  { value: '20+', label: 'Cities' },
+];
+
+function Eyebrow({ children, className = '' }) {
+  return (
+    <span className={`mb-4 block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#737373] ${className}`}>
+      {children}
+    </span>
+  );
+}
+
 export default function AboutPage() {
   return (
-    <div className="overflow-x-hidden bg-[#F7F7F7]">
-      <section className="relative pt-12 pb-20 lg:pt-16 lg:pb-28">
-        <div className="container-max">
-          <div className="grid items-center gap-12 lg:grid-cols-[0.95fr_1.05fr]">
-            <motion.div
-              variants={staggerContainer}
-              initial="hidden"
-              animate="visible"
-              className="max-w-2xl text-center lg:text-left"
-            >
-              <motion.span
-                variants={fadeUp}
-                className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#E5E5E5] bg-white px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-[#6B6B6B] shadow-xs"
-              >
-                <Sparkles size={14} className="text-[#14B8A6]" />
-                About NestMate
-              </motion.span>
+    <div className="overflow-x-hidden bg-[#F8F8F6]">
+      <section className="px-3 pb-16 pt-3 sm:px-5 sm:pb-20 lg:px-7">
+        <div className="relative isolate mx-auto min-h-[590px] max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-black/[0.04] bg-[#F4F3F0] shadow-[0_18px_45px_rgba(23,20,16,0.06)] sm:min-h-[640px] lg:min-h-[690px]">
+          <img
+            src={sharedLivingSpace}
+            alt="A bright NestMate home overlooking the city"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_48%]"
+          />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_32%,rgba(255,255,255,0.68)_52%,rgba(255,255,255,0.12)_77%,rgba(255,255,255,0.04)_100%)]" />
+
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="flex min-h-[590px] items-center px-7 py-20 sm:min-h-[640px] sm:px-12 lg:min-h-[690px] lg:px-20 xl:px-28"
+          >
+            <div className="max-w-[570px]">
+              <motion.div variants={fadeUp}>
+                <Eyebrow>About NestMate</Eyebrow>
+              </motion.div>
               <motion.h1
                 variants={fadeUp}
-                className="mb-6 font-serif text-5xl font-extrabold leading-[1] tracking-tight text-[#0A0A0A] sm:text-6xl lg:text-7xl"
+                className="font-serif text-[2.9rem] font-extrabold leading-[0.99] tracking-[-0.045em] text-[#111] sm:text-6xl lg:text-[4.35rem]"
               >
-                Helping people find a home match they can trust.
+                Built for better matches and better living.
               </motion.h1>
-              <motion.p variants={fadeUp} className="mx-auto max-w-xl text-base leading-relaxed text-[#6B6B6B] sm:text-lg lg:mx-0">
-                NestMate exists to make flatmate and tenant discovery feel faster, safer, and more human for people moving across Indian cities.
+              <motion.p variants={fadeUp} className="mt-6 max-w-md text-sm leading-relaxed text-[#484848] sm:text-base">
+                NestMate makes it simple to find the right flatmate or rental room in a new city. Safe, trusted, and made for the way you live.
               </motion.p>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, x: 36, scale: 0.98 }}
-              animate={{ opacity: 1, x: 0, scale: 1 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.15 }}
-              className="relative mx-auto w-full max-w-xl"
-            >
-              <div className="absolute -inset-5 rounded-[2rem] bg-white" />
-              <div className="relative overflow-hidden rounded-[2rem] border border-[#E5E5E5] bg-white p-3 shadow-card">
-                <img
-                  src={sharedLivingSpace}
-                  alt="NestMate shared living"
-                  className="h-[360px] w-full rounded-[1.5rem] object-cover grayscale"
-                />
-                <div className="absolute bottom-7 left-7 right-7 rounded-3xl border border-white/25 bg-[#0A0A0A]/80 p-5 text-white backdrop-blur-md">
-                  <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[#14B8A6]">Mission</p>
-                  <p className="mt-2 font-serif text-2xl font-bold leading-tight text-white">
-                    Better matches, fewer compromises.
-                  </p>
-                </div>
-              </div>
-            </motion.div>
-          </div>
+              <motion.div variants={fadeUp} className="mt-8">
+                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="inline-flex">
+                  <Link
+                    to="/browse"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#0A0A0A] px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#14B8A6]"
+                  >
+                    Explore Rooms
+                    <ArrowRight size={15} />
+                  </Link>
+                </motion.div>
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
@@ -120,25 +145,32 @@ export default function AboutPage() {
         variants={sectionReveal}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.25 }}
-        className="border-y border-[#E5E5E5] bg-white py-20 lg:py-24"
+        viewport={{ once: true, amount: 0.18 }}
+        className="border-y border-[#E5E5E5] bg-white py-20 lg:py-28"
       >
         <div className="container-max">
-          <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr]">
-            <div>
-              <span className="section-eyebrow">Our Story</span>
-              <h2 className="section-title">Why NestMate</h2>
+          <div className="grid items-center gap-12 lg:grid-cols-[1fr_0.9fr] lg:gap-20">
+            <div className="relative mx-auto w-full max-w-xl">
+              <div className="absolute -inset-8 rounded-full bg-[#F7F7F7] blur-3xl" />
+              <img
+                src={cityIllustration}
+                alt="A line illustration of people finding their place in the city"
+                className="relative h-auto w-full mix-blend-multiply"
+              />
             </div>
-            <div className="space-y-6 text-base leading-relaxed text-[#6B6B6B]">
-              <p>
-                Moving into a shared home should not feel like taking a leap in the dark. NestMate brings verified listings, preference-led discovery, and direct conversations into one calmer experience.
-              </p>
-              <p>
-                We are building for students, professionals, tenants, and owners who want speed without losing trust. The right match should be easy to compare, easy to contact, and easy to feel good about.
-              </p>
-              <p>
-                Our product direction stays simple: reduce brokerage friction, improve transparency, and help every person understand who they are choosing to live with before they commit.
-              </p>
+            <div className="max-w-xl">
+              <Eyebrow>Our story</Eyebrow>
+              <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+                A better way to find where you belong.
+              </h2>
+              <div className="mt-7 space-y-5 text-sm leading-relaxed text-[#5F5F5F] sm:text-base">
+                <p>
+                  We know the struggle of moving to a new city—finding a place, trusting strangers, and paying high brokers.
+                </p>
+                <p>
+                  NestMate was built to change that. We bring verified rooms, compatible flatmates, and real connections into one platform so you can find more than just a room—you can find your people.
+                </p>
+              </div>
             </div>
           </div>
         </div>
@@ -148,30 +180,42 @@ export default function AboutPage() {
         variants={sectionReveal}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.25 }}
-        className="py-20 lg:py-24"
+        viewport={{ once: true, amount: 0.18 }}
+        className="bg-[#F8F8F6] py-20 lg:py-24"
       >
         <div className="container-max">
-          <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.3 }}
-            className="grid grid-cols-1 gap-5 md:grid-cols-3"
-          >
-            {STATS.map((stat) => (
-              <motion.div
-                key={stat.label}
-                variants={fadeUp}
-                whileHover={{ y: -4, boxShadow: '0 16px 34px rgba(0, 0, 0, 0.08)' }}
-                transition={spring}
-                className="rounded-3xl border border-[#E5E5E5] bg-white p-8"
-              >
-                <p className="mb-2 font-serif text-5xl font-extrabold leading-none text-[#14B8A6]">{stat.value}</p>
-                <p className="text-sm font-medium leading-relaxed text-[#6B6B6B]">{stat.label}</p>
-              </motion.div>
-            ))}
-          </motion.div>
+          <div className="grid gap-12 lg:grid-cols-[0.9fr_1.6fr] lg:items-center">
+            <div className="max-w-sm">
+              <Eyebrow>Our mission</Eyebrow>
+              <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+                Making cities feel like home.
+              </h2>
+              <p className="mt-5 text-sm leading-relaxed text-[#686868] sm:text-base">
+                We’re here to make moving simpler, safer, and more human for everyone.
+              </p>
+            </div>
+
+            <motion.div
+              variants={staggerContainer}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, amount: 0.2 }}
+              className="grid grid-cols-2 divide-x divide-y divide-[#E5E5E5] border-y border-[#E5E5E5] md:grid-cols-4 md:divide-y-0"
+            >
+              {VALUES.map((value) => {
+                const Icon = value.icon;
+                return (
+                  <motion.div key={value.title} variants={fadeUp} className="min-h-[190px] px-5 py-7 text-center md:px-6">
+                    <div className="mx-auto mb-5 flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E5E5] bg-white text-[#111] shadow-xs">
+                      <Icon size={18} />
+                    </div>
+                    <h3 className="text-sm font-bold text-[#151515]">{value.title}</h3>
+                    <p className="mx-auto mt-2 max-w-[150px] text-xs leading-relaxed text-[#707070]">{value.description}</p>
+                  </motion.div>
+                );
+              })}
+            </motion.div>
+          </div>
         </div>
       </motion.section>
 
@@ -179,40 +223,35 @@ export default function AboutPage() {
         variants={sectionReveal}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.2 }}
-        className="border-t border-[#E5E5E5] bg-white py-24 lg:py-28"
+        viewport={{ once: true, amount: 0.16 }}
+        className="border-y border-[#E5E5E5] bg-white py-20 lg:py-28"
       >
         <div className="container-max">
-          <div className="mx-auto mb-14 max-w-2xl text-center">
-            <span className="section-eyebrow mx-auto">Values</span>
-            <h2 className="section-title">Built for better decisions</h2>
-            <p className="section-subtitle mx-auto">
-              A minimal product promise: make every home search more transparent, direct, and trustworthy.
-            </p>
+          <div className="mx-auto mb-12 max-w-2xl text-center">
+            <Eyebrow>Our process</Eyebrow>
+            <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+              Simple steps, better living.
+            </h2>
           </div>
 
           <motion.div
             variants={staggerContainer}
             initial="hidden"
             whileInView="visible"
-            viewport={{ once: true, amount: 0.25 }}
-            className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4"
+            viewport={{ once: true, amount: 0.2 }}
+            className="grid overflow-hidden rounded-[1.5rem] border border-[#E5E5E5] bg-[#FCFCFB] shadow-card md:grid-cols-4"
           >
-            {VALUES.map((value) => {
-              const Icon = value.icon;
+            {PROCESS.map((item, index) => {
+              const Icon = item.icon;
               return (
-                <motion.div
-                  key={value.title}
-                  variants={fadeUp}
-                  whileHover={{ y: -4, boxShadow: '0 16px 34px rgba(0, 0, 0, 0.08)' }}
-                  transition={spring}
-                  className="rounded-3xl border border-[#E5E5E5] bg-[#F7F7F7] p-7"
-                >
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full border border-[#E5E5E5] bg-white text-[#0A0A0A]">
-                    <Icon size={19} />
+                <motion.div key={item.title} variants={fadeUp} className="relative min-h-[210px] border-b border-[#E5E5E5] p-7 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
+                  <Icon size={24} className="mb-6 text-[#171717]" />
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F0F0F0] text-[11px] font-bold text-[#555]">{item.step}</span>
+                    <h3 className="text-sm font-bold text-[#151515]">{item.title}</h3>
                   </div>
-                  <h3 className="mb-3 font-serif text-xl font-bold text-[#0A0A0A]">{value.title}</h3>
-                  <p className="text-sm leading-relaxed text-[#6B6B6B]">{value.description}</p>
+                  <p className="mt-3 max-w-[180px] text-xs leading-relaxed text-[#6B6B6B]">{item.description}</p>
+                  {index < PROCESS.length - 1 && <ArrowRight size={15} className="absolute right-[-8px] top-[53%] z-10 hidden bg-white text-[#A0A0A0] md:block" />}
                 </motion.div>
               );
             })}
@@ -224,43 +263,54 @@ export default function AboutPage() {
         variants={sectionReveal}
         initial="hidden"
         whileInView="visible"
-        viewport={{ once: true, amount: 0.25 }}
-        className="bg-[#0A0A0A] py-24 text-white"
+        viewport={{ once: true, amount: 0.2 }}
+        className="bg-[#F8F8F6] py-20 lg:py-24"
       >
         <div className="container-max">
-          <div className="mx-auto max-w-4xl text-center">
-            <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white/70">
-              <CheckCircle2 size={14} className="text-[#14B8A6]" />
-              Zero brokerage, verified trust
-            </div>
-            <h2 className="mb-6 font-serif text-4xl font-extrabold leading-[1.04] tracking-tight text-white sm:text-5xl">
-              Ready to find your match?
+          <Eyebrow className="text-center">By the numbers</Eyebrow>
+          <div className="mx-auto mt-9 grid max-w-5xl grid-cols-2 divide-x divide-y divide-[#E5E5E5] border-y border-[#E5E5E5] md:grid-cols-4 md:divide-y-0">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="px-5 py-8 text-center md:px-7">
+                <p className="font-serif text-4xl font-extrabold tracking-[-0.045em] text-[#101010] sm:text-5xl">{stat.value}</p>
+                <p className="mt-2 text-xs font-medium text-[#696969]">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </motion.section>
+
+      <section className="bg-white px-3 pb-20 pt-4 sm:px-5 lg:px-7 lg:pb-24">
+        <div className="relative isolate mx-auto max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-[#E5E5E5] bg-[#F5F4F1]">
+          <img
+            src={sharedLivingSpace}
+            alt="A calm NestMate home"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_60%] opacity-55"
+          />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.88)_42%,rgba(255,255,255,0.35)_100%)]" />
+          <div className="mx-auto max-w-xl px-7 py-20 text-center sm:px-12 lg:py-24">
+            <Eyebrow>Ready to get started?</Eyebrow>
+            <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+              Find your place.<br />Find your people.
             </h2>
-            <p className="mx-auto mb-9 max-w-2xl text-base leading-relaxed text-white/60">
-              Browse verified rooms or post a free ad and start connecting with people who fit your home, budget, and lifestyle.
+            <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-[#606060]">
+              Join thousands of people who have found more than just a room through NestMate.
             </p>
-            <div className="flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
-                <Link
-                  to="/post-room"
-                  className="block rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0A0A0A] transition-colors hover:bg-[#14B8A6] hover:text-white"
-                >
-                  Post Free Ad
+                <Link to="/browse" className="flex items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#14B8A6]">
+                  Explore Rooms
+                  <ArrowRight size={15} />
                 </Link>
               </motion.div>
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
-                <Link
-                  to="/browse"
-                  className="inline-flex w-full items-center justify-center gap-2 rounded-full border border-white/15 bg-white/10 px-8 py-3.5 text-sm font-semibold text-white transition-colors hover:bg-white/15 sm:w-auto"
-                >
-                  Browse Rooms
-                  <ArrowRight size={15} />
+                <Link to="/post-room" className="flex items-center justify-center rounded-full border border-[#0A0A0A]/20 bg-white/80 px-6 py-3 text-sm font-semibold text-[#171717] backdrop-blur-sm transition-colors hover:border-[#0A0A0A]">
+                  Post a Room
                 </Link>
               </motion.div>
             </div>
           </div>
         </div>
-      </motion.section>
+      </section>
     </div>
   );
 }
