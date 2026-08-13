@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Home, MessageCircle, Search, Shield, Users } from 'lucide-react';
 import sharedLivingSpace from '../assets/nestmatebg.png';
-import cityIllustration from '../assets/homeimage_2.png';
+import cityIllustration from '../assets/homeImage_2.png';
 
 const spring = { type: 'spring', stiffness: 320, damping: 24 };
 
