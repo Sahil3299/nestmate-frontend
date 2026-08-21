@@ -80,7 +80,7 @@ export default function PostRoomPage() {
   const isStep3Valid = formData.description.length >= 20;
 
   return (
-    <div className="py-8 md:py-12 bg-gradient-to-br from-[#FAFAFA] to-teal-50/40 min-h-screen">
+    <div className="py-8 md:py-12 bg-gradient-to-br from-[#FAFAFA] to-neutral-100/40 min-h-screen">
       <div className="container-max max-w-2xl">
         {/* Title */}
         <div className="text-center mb-12">
@@ -95,12 +95,12 @@ export default function PostRoomPage() {
           {[1, 2, 3].map((i) => (
             <div key={i} className="flex items-center flex-1">
               <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-semibold text-sm transition-all ${
-                i <= step ? 'bg-[#14B8A6] text-white shadow-sm' : 'bg-[#E2E8F0] text-[#64748B]'
+                i <= step ? 'bg-[#0A0A0A] text-white shadow-sm' : 'bg-[#E2E8F0] text-[#64748B]'
               }`}>
                 {i < step ? <Check size={18} /> : i}
               </div>
               {i < 3 && (
-                <div className={`flex-1 h-1 mx-2 rounded-full transition-all ${i < step ? 'bg-[#14B8A6]' : 'bg-[#E2E8F0]'}`} />
+                <div className={`flex-1 h-1 mx-2 rounded-full transition-all ${i < step ? 'bg-[#0A0A0A]' : 'bg-[#E2E8F0]'}`} />
               )}
             </div>
           ))}
@@ -187,7 +187,7 @@ export default function PostRoomPage() {
                     <label key={pref.name} className="flex items-center gap-3 cursor-pointer">
                       <input type="checkbox" checked={formData[pref.name] === 'yes'}
                         onChange={(e) => setFormData((prev) => ({ ...prev, [pref.name]: e.target.checked ? 'yes' : 'no' }))}
-                        className="w-4 h-4 rounded accent-[#14B8A6]" />
+                        className="w-4 h-4 rounded accent-[#0A0A0A]" />
                       <span className="text-[#64748B] text-sm">{pref.label}</span>
                     </label>
                   ))}
@@ -257,7 +257,7 @@ export default function PostRoomPage() {
                   {['WiFi', 'AC', 'Washing Machine', 'Kitchen', 'Balcony', 'Parking', 'TV', 'Water Heater'].map((amenity) => (
                     <label key={amenity} className="flex items-center gap-2 cursor-pointer">
                       <input type="checkbox" checked={formData.amenities.includes(amenity)}
-                        onChange={() => handleAmenityChange(amenity)} className="w-4 h-4 rounded accent-[#14B8A6]" />
+                        onChange={() => handleAmenityChange(amenity)} className="w-4 h-4 rounded accent-[#0A0A0A]" />
                       <span className="text-sm text-[#64748B]">{amenity}</span>
                     </label>
                   ))}

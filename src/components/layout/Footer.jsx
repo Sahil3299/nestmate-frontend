@@ -145,7 +145,7 @@ export default function Footer() {
               Privacy Protected
             </div>
             <div className="flex items-center gap-1.5 text-xs text-white/50">
-              <span className="h-1.5 w-1.5 rounded-full bg-[#14B8A6]" />
+              <span className="h-1.5 w-1.5 rounded-full bg-white" />
               All systems operational
             </div>
           </div>

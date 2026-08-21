@@ -5,18 +5,6 @@ export default {
     extend: {
       colors: {
         dark: "#0A0A0A",
-        teal: {
-          50: "#f0fdfc",
-          100: "#ccfbf1",
-          200: "#99f6e4",
-          300: "#5ee7df",
-          400: "#2dd4bf",
-          500: "#14B8A6",
-          600: "#0d9488",
-          700: "#0F766E",
-          800: "#115e59",
-          900: "#134e4a",
-        },
         neutral: {
           50: "#F7F7F7",
           100: "#F0F0F0",

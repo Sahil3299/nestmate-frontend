@@ -68,8 +68,8 @@ function WidgetTriggerButton({ isOpen, onClick }) {
       className={cn(
         "relative flex items-center justify-center w-14 h-14 rounded-full text-white shadow-xl hover:scale-105 active:scale-95 transition-all duration-200",
         isOpen
-          ? "bg-[#0A0A0A] hover:bg-[#0A0A0A]"
-          : "bg-[#0A0A0A] hover:bg-[#14B8A6]"
+          ? "bg-[#0A0A0A] hover:bg-[#2A2A2A]"
+          : "bg-[#0A0A0A] hover:bg-[#2A2A2A]"
       )}
     >
       {isOpen ? (
@@ -78,7 +78,7 @@ function WidgetTriggerButton({ isOpen, onClick }) {
         <MessageCircle size={24} />
       )}
       {unreadCount > 0 && !isOpen && (
-        <span className="absolute -top-1.5 -right-1.5 bg-[#14B8A6] text-white font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
+        <span className="absolute -top-1.5 -right-1.5 bg-white text-[#0A0A0A] font-bold text-xs h-6 w-6 rounded-full flex items-center justify-center border-2 border-white animate-bounce shadow-md">
           {unreadCount}
         </span>
       )}
@@ -97,11 +97,11 @@ function WidgetInboxList({ onSelectPartner }) {
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 bg-white border-b border-slate-100">
         <h3 className="font-semibold text-slate-800 text-base flex items-center gap-2">
-          <Mail size={18} className="text-teal-500" />
+          <Mail size={18} className="text-[#0A0A0A]" />
           Messages
         </h3>
         {inbox.length > 0 && (
-          <span className="bg-teal-50 text-teal-700 text-xs font-semibold px-2 py-0.5 rounded-full">
+          <span className="bg-neutral-100 text-neutral-700 text-xs font-semibold px-2 py-0.5 rounded-full">
             {inbox.length} chats
           </span>
         )}
@@ -111,7 +111,7 @@ function WidgetInboxList({ onSelectPartner }) {
       <div className="flex-1 overflow-y-auto p-2">
         {isLoading ? (
           <div className="flex flex-col items-center justify-center h-full py-10">
-            <Spinner className="text-teal-500 w-8 h-8" />
+            <Spinner className="text-[#0A0A0A] w-8 h-8" />
             <p className="text-slate-400 text-xs mt-2">Loading chats...</p>
           </div>
         ) : isError ? (
@@ -242,7 +242,7 @@ function WidgetMessageThread({ partner, onBack }) {
       <div className="flex-1 overflow-y-auto p-4 space-y-3 bg-slate-50">
         {isLoading ? (
           <div className="flex items-center justify-center py-12">
-            <Spinner className="text-teal-500 w-6 h-6" />
+            <Spinner className="text-[#0A0A0A] w-6 h-6" />
           </div>
         ) : isError ? (
           <div className="flex flex-col items-center justify-center py-10 text-center">
@@ -276,7 +276,7 @@ function WidgetMessageThread({ partner, onBack }) {
                   className={cn(
                     "max-w-[75%] rounded-2xl px-3 py-2 text-xs leading-relaxed",
                     isMine
-                      ? "bg-teal-500 text-white rounded-br-sm shadow-sm"
+                      ? "bg-[#0A0A0A] text-white rounded-br-sm shadow-sm"
                       : "bg-white border border-slate-200/80 text-slate-800 rounded-bl-sm shadow-sm",
                     msg._optimistic && "opacity-75"
                   )}
@@ -285,7 +285,7 @@ function WidgetMessageThread({ partner, onBack }) {
                   <span
                     className={cn(
                       "block text-[9px] mt-1 text-right",
-                      isMine ? "text-teal-100" : "text-slate-400"
+                      isMine ? "text-neutral-300" : "text-slate-400"
                     )}
                   >
                     {timeAgo(msg.createdAt)}
@@ -307,12 +307,12 @@ function WidgetMessageThread({ partner, onBack }) {
             value={content}
             onChange={(e) => setContent(e.target.value)}
             placeholder="Type a message..."
-            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-teal-500/30 focus:border-teal-500 focus:bg-white transition-all"
+            className="flex-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:ring-1 focus:ring-[#0A0A0A]/20 focus:border-[#0A0A0A] focus:bg-white transition-all"
           />
           <button
             type="submit"
             disabled={!content.trim() || sendMessageMutation.isPending}
-            className="w-8 w-8 h-8 rounded-xl bg-teal-500 hover:bg-teal-600 text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-8 w-8 h-8 rounded-xl bg-[#0A0A0A] hover:bg-[#2A2A2A] text-white flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             <Send size={14} />
           </button>

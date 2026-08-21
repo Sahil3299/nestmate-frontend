@@ -21,7 +21,7 @@ export default function ChatPage() {
   if (authLoading) {
     return (
       <div className="h-[calc(100vh-73px)] flex items-center justify-center bg-[#FAFAFA]">
-        <Spinner className="text-teal-500 w-8 h-8" />
+        <Spinner className="text-[#0A0A0A] w-8 h-8" />
       </div>
     );
   }

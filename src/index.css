@@ -9,7 +9,6 @@
     --color-gray-50: #F7F7F7;
     --color-gray-200: #E5E5E5;
     --color-gray-500: #6B6B6B;
-    --color-accent-green: #14B8A6;
   }
 
   * {
@@ -21,7 +20,7 @@
   }
 
   body {
-    @apply bg-[#F7F7F7] text-[#0A0A0A] font-sans antialiased selection:bg-teal-500/10 selection:text-teal-900;
+    @apply bg-[#F7F7F7] text-[#0A0A0A] font-sans antialiased selection:bg-neutral-200 selection:text-neutral-900;
   }
 
   button,
@@ -36,7 +35,7 @@
   }
 
   ::selection {
-    @apply bg-teal-500/20 text-teal-900;
+    @apply bg-neutral-200 text-neutral-900;
   }
 }
 
@@ -59,7 +58,7 @@
   }
 
   .btn-primary {
-    @apply btn bg-[#0A0A0A] text-white hover:bg-[#14B8A6] shadow-sm hover:shadow-md active:scale-[0.99];
+    @apply btn bg-[#0A0A0A] text-white hover:bg-[#2A2A2A] shadow-sm hover:shadow-md active:scale-[0.99];
   }
 
   .btn-secondary {

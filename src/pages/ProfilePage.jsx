@@ -20,14 +20,14 @@ const CITIES = [
 ];
 
 const AVATAR_PRESETS = [
-  { id: "preset-1", color: "#14B8A6", label: "A" },
+  { id: "preset-1", color: "#0A0A0A", label: "A" },
   { id: "preset-2", color: "#F59E0B", label: "B" },
   { id: "preset-3", color: "#6366F1", label: "C" },
   { id: "preset-4", color: "#EC4899", label: "D" },
-  { id: "preset-5", color: "#10B981", label: "E" },
+  { id: "preset-5", color: "#525252", label: "E" },
   { id: "preset-6", color: "#F97316", label: "F" },
   { id: "preset-7", color: "#8B5CF6", label: "G" },
-  { id: "preset-8", color: "#06B6D4", label: "H" },
+  { id: "preset-8", color: "#A3A3A3", label: "H" },
 ];
 
 const LIFESTYLE_GROUPS = [
@@ -305,7 +305,7 @@ export default function ProfilePage() {
 
   const showPresetColor = isEditing ? (formData.avatarMode === "preset") : (profile.avatarMode === "preset" && !hasAvatar);
   const displayPreset = isEditing ? selectedPreset : viewPreset;
-  const displayPresetColor = displayPreset?.color || "#14B8A6";
+  const displayPresetColor = displayPreset?.color || "#0A0A0A";
   const displayPresetLabel = displayPreset?.label || initials;
   const displayImage = isEditing ? (formData.avatarMode === "upload" ? (formData.profileImage || "") : "") : (profile.avatarMode === "upload" ? profile.profileImage : "");
 
@@ -313,12 +313,12 @@ export default function ProfilePage() {
     <div className="py-8 bg-[#FAFAFA] min-h-screen">
       <div className="container-max max-w-5xl">
         <div className="card overflow-hidden mb-8">
-          <div className="h-32 bg-gradient-to-r from-[#14B8A6] to-[#0F766E]" />
+          <div className="h-32 bg-gradient-to-r from-[#1A1A1A] to-[#000000]" />
 
           <div className="px-6 md:px-8 pb-8">
             <div className="flex flex-col md:flex-row items-start md:items-end gap-6 -mt-16 mb-6">
               <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0">
-                <div className="w-full h-full rounded-2xl bg-gradient-to-br from-[#14B8A6] to-[#0F766E] flex items-center justify-center text-white font-display text-4xl md:text-5xl font-bold shadow-lg border-4 border-white overflow-hidden">
+                <div className="w-full h-full rounded-2xl bg-[#0A0A0A] flex items-center justify-center text-white font-display text-4xl md:text-5xl font-bold shadow-lg border-4 border-white overflow-hidden">
                   {displayImage ? (
                     <img src={displayImage} alt={profile.name} className="w-full h-full object-cover" />
                   ) : (
@@ -338,7 +338,7 @@ export default function ProfilePage() {
                     className="absolute -bottom-1 -right-1 w-9 h-9 bg-white rounded-full shadow-md border border-gray-200 flex items-center justify-center text-[#64748B] hover:text-[#0F172A] hover:shadow-lg transition-all"
                   >
                     {uploadingAvatar ? (
-                      <div className="w-4 h-4 border-2 border-[#14B8A6] border-t-transparent rounded-full animate-spin" />
+                      <div className="w-4 h-4 border-2 border-[#0A0A0A] border-t-transparent rounded-full animate-spin" />
                     ) : (
                       <Camera size={16} />
                     )}
@@ -433,7 +433,7 @@ export default function ProfilePage() {
                         onClick={() => handleAvatarPresetSelect(preset.id)}
                         className={`w-14 h-14 rounded-xl flex items-center justify-center text-white font-bold text-lg transition-all duration-200 ${
                           selectedPresetId === preset.id
-                            ? "ring-2 ring-offset-2 ring-[#14B8A6] scale-110"
+                            ? "ring-2 ring-offset-2 ring-[#0A0A0A] scale-110"
                             : "hover:scale-105 opacity-70 hover:opacity-100"
                         }`}
                         style={{ background: preset.color }}
@@ -588,7 +588,7 @@ export default function ProfilePage() {
                             onClick={() => handleLifestyleChange(group.key, option.value)}
                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                               isSelected
-                                ? "bg-[#14B8A6] text-white shadow-md"
+                                ? "bg-[#0A0A0A] text-white shadow-md"
                                 : isEditing
                                   ? "bg-[#f1f5f9] text-[#64748B] hover:bg-[#e2e8f0]"
                                   : "bg-[#f1f5f9] text-[#64748B]"
@@ -639,8 +639,8 @@ export default function ProfilePage() {
                           {listing.photos?.[0] || listing.images?.[0] ? (
                             <img src={listing.photos?.[0] || listing.images?.[0]} alt={listing.title} className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-500" />
                           ) : (
-                            <div className="w-full h-40 bg-gradient-to-br from-teal-100 to-teal-50 flex items-center justify-center">
-                              <Heart size={32} className="text-teal-300" />
+                            <div className="w-full h-40 bg-gradient-to-br from-neutral-100 to-neutral-50 flex items-center justify-center">
+                              <Heart size={32} className="text-neutral-400" />
                             </div>
                           )}
                         </div>
@@ -650,7 +650,7 @@ export default function ProfilePage() {
                             {listing.locality}{listing.locality && listing.city ? ", " : ""}{listing.city}
                           </p>
                           <div className="flex items-center justify-between">
-                            <p className="text-lg font-bold text-[#14B8A6]">
+                            <p className="text-lg font-bold text-[#0A0A0A]">
                               ${Number(listing.rent).toLocaleString()}
                             </p>
                           </div>
@@ -692,12 +692,12 @@ export default function ProfilePage() {
               </div>
             )}
 
-            <div className="card p-6 bg-teal-50 border border-teal-200">
-              <h4 className="font-semibold text-teal-900 mb-2 flex items-center gap-2">
+            <div className="card p-6 bg-neutral-50 border border-neutral-200">
+              <h4 className="font-semibold text-neutral-900 mb-2 flex items-center gap-2">
                 <Shield size={16} />
                 Need Help?
               </h4>
-              <p className="text-sm text-teal-800 mb-4">
+              <p className="text-sm text-neutral-600 mb-4">
                 Check our safety guidelines and FAQs for common questions.
               </p>
               <button className="btn-secondary w-full text-sm">View Help Center</button>

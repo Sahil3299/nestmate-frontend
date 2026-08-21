@@ -58,7 +58,7 @@ export default function ListingCard({
         {/* Match Score Pill */}
         {matchScore && (
           <div className="absolute bottom-3 left-3 bg-[#0A0A0A] text-white px-3 py-1 rounded-full text-xs font-semibold flex items-center gap-1 shadow-sm">
-            <Zap size={13} className="text-[#14B8A6]" />
+            <Zap size={13} className="text-white" />
             {matchScore}% Match
           </div>
         )}
@@ -130,7 +130,7 @@ export default function ListingCard({
           )}
           <Link
             to={`/browse/${id}`}
-            className="px-4 py-2 bg-[#0A0A0A] hover:bg-[#14B8A6] text-white rounded-full text-xs font-semibold transition-all"
+            className="px-4 py-2 bg-[#0A0A0A] hover:bg-[#2A2A2A] text-white rounded-full text-xs font-semibold transition-all"
           >
             View Details
           </Link>

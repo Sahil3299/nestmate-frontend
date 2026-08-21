@@ -15,7 +15,7 @@ import {
   Users,
 } from 'lucide-react';
 import ListingCard from '../components/ListingCard';
-import sharedLivingSpace from '../assets/shared_living_space.png';
+import heroBg from '../assets/shared_living_space.png';
 import infoCard from '../assets/info_card.png';
 import dashboardCard from '../assets/card.png';
 
@@ -259,12 +259,12 @@ export default function HomePage() {
       <section className="px-3 pb-16 pt-3 sm:px-5 sm:pb-20 lg:px-7">
         <div className="relative isolate mx-auto min-h-[700px] max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-black/[0.04] bg-[#f8f8f6] shadow-[0_18px_45px_rgba(23,20,16,0.06)] sm:min-h-[650px] lg:min-h-[700px]">
           <img
-            src={sharedLivingSpace}
+            src={heroBg}
             alt="A welcoming NestMate home with a city view"
-            className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_48%]"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.93)_34%,rgba(255,255,255,0.60)_54%,rgba(255,255,255,0.10)_78%,rgba(255,255,255,0.04)_100%)]" />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.90)_67%,rgba(255,255,255,0.28)_100%)] sm:hidden" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,10,10,0.72)_0%,rgba(10,10,10,0.52)_40%,rgba(10,10,10,0.28)_68%,rgba(10,10,10,0.06)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,10,10,0.55)_0%,rgba(10,10,10,0.70)_60%,rgba(10,10,10,0.45)_100%)] sm:hidden" />
 
           <motion.div
             variants={staggerContainer}
@@ -273,11 +273,11 @@ export default function HomePage() {
             className="flex min-h-[700px] items-start px-6 py-12 sm:min-h-[650px] sm:items-center sm:px-12 sm:py-20 lg:min-h-[700px] lg:px-20 xl:px-28"
           >
             <div className="w-full max-w-2xl text-left">
-              <motion.p variants={fadeUp} className="mb-3 text-xs font-medium text-[#202020] sm:mb-4 sm:text-base">
+              <motion.p variants={fadeUp} className="mb-3 text-xs font-medium text-white/80 sm:mb-4 sm:text-base">
                 Move in with trust, not tension
               </motion.p>
 
-              <h1 className="mb-5 font-serif text-[2.9rem] font-black leading-[0.96] tracking-[-0.052em] text-[#0A0A0A] sm:mb-6 sm:text-[clamp(3.25rem,6vw,5.8rem)]">
+              <h1 className="mb-5 font-serif text-[2.9rem] font-black leading-[0.96] tracking-[-0.052em] text-white sm:mb-6 sm:text-[clamp(3.25rem,6vw,5.8rem)]">
                 {['Find Your Perfect', 'Flatmate in Mumbai'].map((line) => (
                   <motion.span key={line} variants={fadeUp} className="block">
                     {line}
@@ -286,7 +286,7 @@ export default function HomePage() {
               </h1>
 
               <motion.div variants={fadeUp} className="mb-5 sm:mb-7">
-                <TrustBadge />
+                <TrustBadge tone="dark" />
               </motion.div>
 
               <motion.div variants={fadeUp} className="mb-6 w-full max-w-2xl">
@@ -321,7 +321,7 @@ export default function HomePage() {
                       whileHover={{ scale: 1.03 }}
                       whileTap={{ scale: 0.98 }}
                       transition={spring}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-4 py-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#14B8A6] sm:w-auto sm:flex-none sm:px-7"
+                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-4 py-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#2A2A2A] sm:w-auto sm:flex-none sm:px-7"
                     >
                       Search
                       <ArrowRight size={14} />
@@ -334,7 +334,7 @@ export default function HomePage() {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
                   <Link
                     to="/browse"
-                    className="flex items-center gap-1.5 rounded-full bg-[#0A0A0A] px-5 py-2.5 text-xs font-semibold text-white shadow-xs transition-colors hover:bg-[#14B8A6]"
+                    className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] shadow-xs transition-colors hover:bg-[#EFEFEF]"
                   >
                     Start Browsing
                     <ArrowRight size={13} />
@@ -343,7 +343,7 @@ export default function HomePage() {
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
                   <a
                     href="#how-it-works"
-                    className="flex items-center gap-1.5 rounded-full border border-[#E5E5E5] bg-white/95 px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] shadow-xs backdrop-blur-sm transition-all hover:border-[#0A0A0A]"
+                    className="flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-xs font-semibold text-white shadow-xs backdrop-blur-sm transition-all hover:bg-white/20"
                   >
                     <Play size={12} />
                     See How It Works
@@ -397,25 +397,26 @@ export default function HomePage() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.2 }}
-        className="border-y border-[#E5E5E5] bg-white py-24 lg:py-32"
+        className="bg-[#0A0A0A] py-24 lg:py-32"
       >
         <div className="container-max">
           <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr]">
             <motion.div variants={staggerContainer} className="max-w-xl">
-              <motion.span variants={fadeUp} className="mb-4 inline-flex items-center gap-2 rounded-full border border-[#E5E5E5] bg-[#F7F7F7] px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-[#6B6B6B]">
-                <Sparkles size={14} className="text-[#14B8A6]" />
+              <motion.span variants={fadeUp} className="mb-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-white/40">
+                <Sparkles size={14} className="text-white" />
                 Hassle-free matching
               </motion.span>
-              <motion.h2 variants={fadeUp} className="mb-5 font-serif text-4xl font-extrabold leading-[1.03] tracking-tight text-[#0A0A0A] sm:text-5xl lg:text-6xl">
-                Search less. Settle in with more confidence.
+              <motion.h2 variants={fadeUp} className="mb-5 font-serif text-4xl font-extrabold leading-[1.03] tracking-tight text-white sm:text-5xl lg:text-6xl">
+                Search less. Settle in with more{' '}
+                <span className="italic text-white/80">confidence.</span>
               </motion.h2>
-              <motion.p variants={fadeUp} className="mb-8 text-base leading-relaxed text-[#6B6B6B] sm:text-lg">
+              <motion.p variants={fadeUp} className="mb-8 text-base leading-relaxed text-white/70 sm:text-lg">
                 NestMate keeps verified rooms, lifestyle preferences, and direct conversations together so every shortlist feels clearer from the first message.
               </motion.p>
-              <motion.div variants={fadeUp} className="grid gap-3 text-sm text-[#4A4A4A] sm:grid-cols-2">
+              <motion.div variants={fadeUp} className="grid gap-3 text-sm text-white/70 sm:grid-cols-2">
                 {['Verified profile cues', 'Budget-first browsing', 'Direct owner chat', 'Lifestyle compatibility'].map((item) => (
                   <div key={item} className="flex items-center gap-2">
-                    <CheckCircle2 size={16} className="text-[#14B8A6]" />
+                    <CheckCircle2 size={16} className="text-white" />
                     {item}
                   </div>
                 ))}
@@ -429,8 +430,8 @@ export default function HomePage() {
               transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
               className="relative mx-auto w-full max-w-2xl"
             >
-              <div className="absolute -inset-6 rounded-[2.5rem] bg-[#14B8A6]/5 blur-2xl" />
-              <div className="relative overflow-hidden rounded-[2rem] border border-[#E5E5E5] bg-[#FBFBFA] p-2 shadow-[0_18px_45px_rgba(0,0,0,0.07)] sm:p-3">
+              <div className="absolute -inset-6 rounded-[2.5rem] bg-white/5 blur-2xl" />
+              <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-[#1A1A1A] p-2 shadow-[0_18px_45px_rgba(0,0,0,0.3)] sm:p-3">
                 <img
                   src={dashboardCard}
                   alt="NestMate dashboard showing flat discovery, matching, and requirements"
@@ -549,7 +550,7 @@ export default function HomePage() {
                 className="flex min-h-[270px] flex-col justify-between rounded-3xl border border-white/10 bg-[#1A1A1A] p-8"
               >
                 <div>
-                  <div className="mb-5 font-serif text-5xl leading-none text-[#14B8A6]">“</div>
+                  <div className="mb-5 font-serif text-5xl leading-none text-white/20">“</div>
                   <Stars rating={testimonial.rating} tone="dark" />
                   <p className="text-sm font-medium leading-relaxed text-white/70">&ldquo;{testimonial.quote}&rdquo;</p>
                 </div>
@@ -587,7 +588,7 @@ export default function HomePage() {
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
                 <Link
                   to="/post-room"
-                  className="block w-full rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0A0A0A] transition-colors hover:bg-[#14B8A6] hover:text-white sm:w-auto"
+                  className="block w-full rounded-full bg-white px-8 py-3.5 text-sm font-semibold text-[#0A0A0A] transition-colors hover:bg-[#EFEFEF] sm:w-auto"
                 >
                   Post Free Ad
                 </Link>

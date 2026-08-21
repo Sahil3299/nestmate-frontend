@@ -153,7 +153,7 @@ export default function Navbar() {
           {/* Post Free Ad - Solid fill capsule (highest intent CTA) */}
           <Link
             to="/post-room"
-            className="flex items-center gap-1.5 px-5 py-2 text-sm font-medium text-white bg-[#0A0A0A] hover:bg-[#14B8A6] rounded-full shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98]"
+            className="flex items-center gap-1.5 px-5 py-2 text-sm font-medium text-white bg-[#0A0A0A] hover:bg-[#2A2A2A] rounded-full shadow-sm hover:shadow-md transition-all duration-200 active:scale-[0.98]"
           >
             <PlusCircle size={15} />
             Post Free Ad

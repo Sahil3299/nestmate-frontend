@@ -30,7 +30,7 @@ export default function App() {
               fontSize: '14px',
               boxShadow: '0 4px 12px rgba(0,0,0,0.08)',
             },
-            success: { iconTheme: { primary: '#14B8A6', secondary: '#fff' } },
+            success: { iconTheme: { primary: '#0A0A0A', secondary: '#fff' } },
             error: { iconTheme: { primary: '#EF4444', secondary: '#fff' } },
           }}
         />

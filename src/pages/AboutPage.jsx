@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowRight, Home, MessageCircle, Search, Shield, Users } from 'lucide-react';
-import sharedLivingSpace from '../assets/nestmatebg.png';
+import sharedLivingSpace from '../assets/about.png';
 import cityIllustration from '../assets/homeimage_2.png';
 
 const spring = { type: 'spring', stiffness: 320, damping: 24 };
@@ -86,9 +86,9 @@ const STATS = [
   { value: '20+', label: 'Cities' },
 ];
 
-function Eyebrow({ children, className = '' }) {
+function Eyebrow({ children, className = '', tone = 'light' }) {
   return (
-    <span className={`mb-4 block text-[11px] font-semibold uppercase tracking-[0.2em] text-[#737373] ${className}`}>
+    <span className={`mb-4 block text-[11px] font-semibold uppercase tracking-[0.2em] ${tone === 'dark' ? 'text-white/40' : 'text-[#737373]'} ${className}`}>
       {children}
     </span>
   );
@@ -102,9 +102,10 @@ export default function AboutPage() {
           <img
             src={sharedLivingSpace}
             alt="A bright NestMate home overlooking the city"
-            className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_48%]"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
           />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.94)_32%,rgba(255,255,255,0.68)_52%,rgba(255,255,255,0.12)_77%,rgba(255,255,255,0.04)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.32)_55%,rgba(0,0,0,0.25)_100%)]" />
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.40)_0%,rgba(0,0,0,0.50)_60%,rgba(0,0,0,0.30)_100%)] sm:hidden" />
 
           <motion.div
             variants={staggerContainer}
@@ -112,31 +113,31 @@ export default function AboutPage() {
             animate="visible"
             className="flex min-h-[590px] items-center px-7 py-20 sm:min-h-[640px] sm:px-12 lg:min-h-[690px] lg:px-20 xl:px-28"
           >
-            <div className="max-w-[570px]">
+            {/* <div className="max-w-[570px]">
               <motion.div variants={fadeUp}>
-                <Eyebrow>About NestMate</Eyebrow>
+                <Eyebrow tone="dark">About NestMate</Eyebrow>
               </motion.div>
               <motion.h1
                 variants={fadeUp}
-                className="font-serif text-[2.9rem] font-extrabold leading-[0.99] tracking-[-0.045em] text-[#111] sm:text-6xl lg:text-[4.35rem]"
+                className="font-serif text-[2.9rem] font-extrabold leading-[0.99] tracking-[-0.045em] text-white sm:text-6xl lg:text-[4.35rem]"
               >
                 Built for better matches and better living.
               </motion.h1>
-              <motion.p variants={fadeUp} className="mt-6 max-w-md text-sm leading-relaxed text-[#484848] sm:text-base">
+              <motion.p variants={fadeUp} className="mt-6 max-w-md text-sm leading-relaxed text-white/80 sm:text-base">
                 NestMate makes it simple to find the right flatmate or rental room in a new city. Safe, trusted, and made for the way you live.
               </motion.p>
               <motion.div variants={fadeUp} className="mt-8">
                 <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="inline-flex">
                   <Link
                     to="/browse"
-                    className="inline-flex items-center gap-2 rounded-full bg-[#0A0A0A] px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#14B8A6]"
+                    className="inline-flex items-center gap-2 rounded-full bg-[#0A0A0A] px-5 py-3 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-[#2A2A2A]"
                   >
                     Explore Rooms
                     <ArrowRight size={15} />
                   </Link>
                 </motion.div>
               </motion.div>
-            </div>
+            </div> */}
           </motion.div>
         </div>
       </section>
@@ -181,16 +182,16 @@ export default function AboutPage() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.18 }}
-        className="bg-[#F8F8F6] py-20 lg:py-24"
+        className="bg-[#0A0A0A] py-20 text-white lg:py-28"
       >
         <div className="container-max">
           <div className="grid gap-12 lg:grid-cols-[0.9fr_1.6fr] lg:items-center">
             <div className="max-w-sm">
-              <Eyebrow>Our mission</Eyebrow>
-              <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+              <Eyebrow tone="dark">Our mission</Eyebrow>
+              <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-white sm:text-5xl">
                 Making cities feel like home.
               </h2>
-              <p className="mt-5 text-sm leading-relaxed text-[#686868] sm:text-base">
+              <p className="mt-5 text-sm leading-relaxed text-white/70 sm:text-base">
                 We’re here to make moving simpler, safer, and more human for everyone.
               </p>
             </div>
@@ -200,17 +201,17 @@ export default function AboutPage() {
               initial="hidden"
               whileInView="visible"
               viewport={{ once: true, amount: 0.2 }}
-              className="grid grid-cols-2 divide-x divide-y divide-[#E5E5E5] border-y border-[#E5E5E5] md:grid-cols-4 md:divide-y-0"
+              className="grid grid-cols-2 divide-x divide-y divide-white/10 border-y border-white/10 md:grid-cols-4 md:divide-y-0"
             >
               {VALUES.map((value) => {
                 const Icon = value.icon;
                 return (
                   <motion.div key={value.title} variants={fadeUp} className="min-h-[190px] px-5 py-7 text-center md:px-6">
-                    <div className="mx-auto mb-5 flex h-10 w-10 items-center justify-center rounded-full border border-[#E5E5E5] bg-white text-[#111] shadow-xs">
+                    <div className="mx-auto mb-5 flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white shadow-xs">
                       <Icon size={18} />
                     </div>
-                    <h3 className="text-sm font-bold text-[#151515]">{value.title}</h3>
-                    <p className="mx-auto mt-2 max-w-[150px] text-xs leading-relaxed text-[#707070]">{value.description}</p>
+                    <h3 className="text-sm font-bold text-white">{value.title}</h3>
+                    <p className="mx-auto mt-2 max-w-[150px] text-xs leading-relaxed text-white/60">{value.description}</p>
                   </motion.div>
                 );
               })}
@@ -224,12 +225,12 @@ export default function AboutPage() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, amount: 0.16 }}
-        className="border-y border-[#E5E5E5] bg-white py-20 lg:py-28"
+        className="bg-[#0A0A0A] py-20 text-white lg:py-28"
       >
         <div className="container-max">
           <div className="mx-auto mb-12 max-w-2xl text-center">
-            <Eyebrow>Our process</Eyebrow>
-            <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+            <Eyebrow tone="dark">Our process</Eyebrow>
+            <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-white sm:text-5xl">
               Simple steps, better living.
             </h2>
           </div>
@@ -239,19 +240,19 @@ export default function AboutPage() {
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.2 }}
-            className="grid overflow-hidden rounded-[1.5rem] border border-[#E5E5E5] bg-[#FCFCFB] shadow-card md:grid-cols-4"
+            className="grid overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#1A1A1A] md:grid-cols-4"
           >
             {PROCESS.map((item, index) => {
               const Icon = item.icon;
               return (
-                <motion.div key={item.title} variants={fadeUp} className="relative min-h-[210px] border-b border-[#E5E5E5] p-7 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
-                  <Icon size={24} className="mb-6 text-[#171717]" />
+                <motion.div key={item.title} variants={fadeUp} className="relative min-h-[210px] border-b border-white/10 p-7 last:border-b-0 md:border-b-0 md:border-r md:last:border-r-0">
+                  <Icon size={24} className="mb-6 text-white" />
                   <div className="flex items-center gap-3">
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#F0F0F0] text-[11px] font-bold text-[#555]">{item.step}</span>
-                    <h3 className="text-sm font-bold text-[#151515]">{item.title}</h3>
+                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-white/10 text-[11px] font-bold text-white">{item.step}</span>
+                    <h3 className="text-sm font-bold text-white">{item.title}</h3>
                   </div>
-                  <p className="mt-3 max-w-[180px] text-xs leading-relaxed text-[#6B6B6B]">{item.description}</p>
-                  {index < PROCESS.length - 1 && <ArrowRight size={15} className="absolute right-[-8px] top-[53%] z-10 hidden bg-white text-[#A0A0A0] md:block" />}
+                  <p className="mt-3 max-w-[180px] text-xs leading-relaxed text-white/60">{item.description}</p>
+                  {index < PROCESS.length - 1 && <ArrowRight size={15} className="absolute right-[-8px] top-[53%] z-10 hidden bg-[#1A1A1A] text-white/40 md:block" />}
                 </motion.div>
               );
             })}
@@ -297,7 +298,7 @@ export default function AboutPage() {
             </p>
             <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
               <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
-                <Link to="/browse" className="flex items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#14B8A6]">
+                <Link to="/browse" className="flex items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#2A2A2A]">
                   Explore Rooms
                   <ArrowRight size={15} />
                 </Link>

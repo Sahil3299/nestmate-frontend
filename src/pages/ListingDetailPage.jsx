@@ -99,7 +99,7 @@ export default function ListingDetailPage() {
       <div className="container-max max-w-5xl">
         <button
           onClick={() => navigate('/browse')}
-          className="flex items-center gap-2 text-[#14B8A6] hover:text-[#0F766E] mb-6 font-medium transition-colors"
+          className="flex items-center gap-2 text-[#0A0A0A] hover:text-neutral-500 mb-6 font-medium transition-colors"
         >
           <ChevronLeft size={20} />
           Back to Listings
@@ -126,7 +126,7 @@ export default function ListingDetailPage() {
         {/* Back Button */}
         <button
           onClick={() => navigate('/browse')}
-          className="flex items-center gap-2 text-[#14B8A6] hover:text-[#0F766E] mb-6 font-medium transition-colors"
+          className="flex items-center gap-2 text-[#0A0A0A] hover:text-neutral-500 mb-6 font-medium transition-colors"
         >
           <ChevronLeft size={20} />
           Back to Listings
@@ -199,13 +199,13 @@ export default function ListingDetailPage() {
               {/* Price & Match Score */}
               <div className="flex items-center justify-between mb-6 pb-6 border-b border-[#E2E8F0]">
                 <div>
-                  <p className="text-4xl font-bold text-[#14B8A6]">
+                  <p className="text-4xl font-bold text-[#0A0A0A]">
                     ₹{(listing.rent || 0).toLocaleString()}
                     <span className="text-lg text-[#64748B] font-normal">/mo</span>
                   </p>
                 </div>
                 <div className="text-right">
-                  <div className="inline-flex items-center gap-2 bg-teal-50 border border-teal-200 text-teal-700 px-4 py-2 rounded-xl font-semibold">
+                  <div className="inline-flex items-center gap-2 bg-neutral-100 border border-neutral-200 text-neutral-900 px-4 py-2 rounded-xl font-semibold">
                     <Zap size={18} />
                     {listing.matchScore || 90}% Match
                   </div>
@@ -223,7 +223,7 @@ export default function ListingDetailPage() {
                   <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {listing.amenities.map((amenity) => (
                       <div key={amenity} className="flex items-center gap-3 text-[#64748B]">
-                        <CheckCircle size={18} className="text-[#14B8A6] flex-shrink-0" />
+                        <CheckCircle size={18} className="text-[#0A0A0A] flex-shrink-0" />
                         <span className="text-sm">{amenity}</span>
                       </div>
                     ))}
@@ -275,12 +275,12 @@ export default function ListingDetailPage() {
             </div>
 
             {/* Safety Tips */}
-            <div className="card p-6 bg-teal-50 border border-teal-200">
-              <h4 className="font-semibold text-teal-900 mb-3 flex items-center gap-2">
+            <div className="card p-6 bg-neutral-50 border border-neutral-200">
+              <h4 className="font-semibold text-neutral-900 mb-3 flex items-center gap-2">
                 <Shield size={16} />
                 Safety Tips
               </h4>
-              <ul className="text-xs text-teal-800 space-y-2.5">
+              <ul className="text-xs text-neutral-600 space-y-2.5">
                 {[
                   'Always verify profiles and documents',
                   'Visit in person before finalizing',
@@ -288,7 +288,7 @@ export default function ListingDetailPage() {
                   'Meet in public spaces when possible',
                 ].map((tip) => (
                   <li key={tip} className="flex gap-2 items-start">
-                    <CheckCircle size={14} className="text-teal-600 mt-0.5 shrink-0" />
+                    <CheckCircle size={14} className="text-neutral-500 mt-0.5 shrink-0" />
                     <span>{tip}</span>
                   </li>
                 ))}
