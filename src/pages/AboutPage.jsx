@@ -1,7 +1,16 @@
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { ArrowRight, Home, MessageCircle, Search, Shield, Users } from 'lucide-react';
-import sharedLivingSpace from '../assets/about.png';
+import {
+  ArrowRight,
+  Home,
+  MessageCircle,
+  Search,
+  Star,
+  Shield,
+  ShieldCheck,
+  Users,
+} from 'lucide-react';
+import sharedLivingSpace from '../assets/aboutpage.png';
 import cityIllustration from '../assets/homeImage_2.png';
 
 const spring = { type: 'spring', stiffness: 320, damping: 24 };
@@ -98,75 +107,75 @@ export default function AboutPage() {
   return (
     <div className="overflow-x-hidden bg-[#F8F8F6]">
       <section className="px-3 pb-16 pt-3 sm:px-5 sm:pb-20 lg:px-7">
-  <div className="relative isolate mx-auto min-h-[640px] max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-black/[0.04] bg-[#F4F3F0] shadow-[0_18px_45px_rgba(23,20,16,0.06)] sm:min-h-[700px] lg:min-h-0 lg:aspect-[3/2]">
+        <div className="relative isolate mx-auto min-h-[640px] max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-black/[0.04] bg-[#F4F3F0] shadow-[0_18px_45px_rgba(23,20,16,0.06)] sm:min-h-[700px] lg:min-h-0 lg:aspect-[3/2]">
 
-    {/* Background Image */}
-    <img
-      src={sharedLivingSpace}
-      alt="Modern shared living space in the city"
-      className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
-    />
+          {/* Background Image */}
+          <img
+            src={sharedLivingSpace}
+            alt="Modern shared living space in the city"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+          />
 
-    {/* Dark gradient — mainly on the left for text readability */}
-    <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(5,8,8,0.97)_0%,rgba(6,9,9,0.94)_30%,rgba(7,10,10,0.64)_43%,rgba(7,10,10,0.05)_67%)]" />
+          {/* Dark gradient — mainly on the left for text readability */}
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(5,8,8,0.97)_0%,rgba(6,9,9,0.94)_30%,rgba(7,10,10,0.64)_43%,rgba(7,10,10,0.05)_67%)]" />
 
-    {/* Subtle bottom gradient */}
-    <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.10)_0%,rgba(0,0,0,0.20)_100%)]" />
+          {/* Subtle bottom gradient */}
+          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.10)_0%,rgba(0,0,0,0.20)_100%)]" />
 
-    <motion.div
-      variants={staggerContainer}
-      initial="hidden"
-      animate="visible"
-      className="flex min-h-[640px] items-center px-7 py-16 sm:min-h-[700px] sm:px-12 lg:min-h-0 lg:px-16 lg:py-20 xl:px-16"
-    >
+          <motion.div
+            variants={staggerContainer}
+            initial="hidden"
+            animate="visible"
+            className="flex min-h-[640px] items-center px-7 py-16 sm:min-h-[700px] sm:px-12 lg:min-h-0 lg:px-16 lg:py-20 xl:px-16"
+          >
 
-      <div className="max-w-[600px]">
+            <div className="max-w-[600px]">
 
-        <motion.div variants={fadeUp}>
-          <div className="mb-20 flex items-center gap-3 text-[1.55rem] font-semibold tracking-[-0.04em] text-white sm:text-[1.7rem]">
-            <Home size={38} strokeWidth={2} className="text-white" />
-            <span>Nest<span className="text-[#4EC2A5]">Mate</span></span>
-          </div>
-        </motion.div>
+              <motion.div variants={fadeUp}>
+                <div className="mb-20 flex items-center gap-3 text-[1.55rem] font-semibold tracking-[-0.04em] text-white sm:text-[1.7rem]">
+                  <Home size={38} strokeWidth={2} className="text-white" />
+                  <span>Nest<span className="text-[#4EC2A5]">Mate</span></span>
+                </div>
+              </motion.div>
 
-        {/* Main Heading */}
-        <motion.h1
-          variants={fadeUp}
-          className="text-[3.2rem] font-bold leading-[1.06] tracking-[-0.052em] text-white sm:text-6xl lg:text-[4.25rem]"
-        >
-          Find your{' '}
-          <span className="text-[#4EC2A5]">people,</span>
-          <br />
-          Find your{' '}
-          <span className="text-[#4EC2A5]">place.</span>
-        </motion.h1>
+              {/* Main Heading */}
+              <motion.h1
+                variants={fadeUp}
+                className="text-[3.2rem] font-bold leading-[1.06] tracking-[-0.052em] text-white sm:text-6xl lg:text-[4.25rem]"
+              >
+                Find your{' '}
+                <span className="text-[#4EC2A5]">people,</span>
+                <br />
+                Find your{' '}
+                <span className="text-[#4EC2A5]">place.</span>
+              </motion.h1>
 
-        {/* Description */}
-       <motion.p
-  variants={fadeUp}
-  className="mt-8 max-w-[500px] text-xl leading-[1.5] text-white/90 sm:text-[1.45rem]"
->
-  Verified flatmates. Compatible lifestyle.
-  <br />
-  Better living, together.
-</motion.p>
+              {/* Description */}
+              <motion.p
+                variants={fadeUp}
+                className="mt-8 max-w-[500px] text-xl leading-[1.5] text-white/90 sm:text-[1.45rem]"
+              >
+                Verified flatmates. Compatible lifestyle.
+                <br />
+                Better living, together.
+              </motion.p>
 
-        <motion.div variants={fadeUp} className="mt-9 h-[2px] w-12 bg-[#4EC2A5]" />
+              <motion.div variants={fadeUp} className="mt-9 h-[2px] w-12 bg-[#4EC2A5]" />
 
-        <motion.div
-          variants={fadeUp}
-          className="mt-9 grid max-w-[590px] grid-cols-3 gap-3 text-sm font-medium text-white sm:gap-6 sm:text-base"
-        >
-          <div className="flex items-center gap-2.5"><ShieldCheck size={39} strokeWidth={1.7} className="shrink-0 text-[#4EC2A5]" /><span>Verified<br />Profiles</span></div>
-          <div className="flex items-center gap-2.5"><MessageCircle size={39} strokeWidth={1.7} className="shrink-0 text-[#4EC2A5]" /><span>Direct Chat,<br />No Brokerage</span></div>
-          <div className="flex items-center gap-2.5"><Star size={39} strokeWidth={1.7} className="shrink-0 text-[#4EC2A5]" /><span>Compatibility<br />That Matters</span></div>
-        </motion.div>
+              <motion.div
+                variants={fadeUp}
+                className="mt-9 grid max-w-[590px] grid-cols-3 gap-3 text-sm font-medium text-white sm:gap-6 sm:text-base"
+              >
+                <div className="flex items-center gap-2.5"><ShieldCheck size={39} strokeWidth={1.7} className="shrink-0 text-[#4EC2A5]" /><span>Verified<br />Profiles</span></div>
+                <div className="flex items-center gap-2.5"><MessageCircle size={39} strokeWidth={1.7} className="shrink-0 text-[#4EC2A5]" /><span>Direct Chat,<br />No Brokerage</span></div>
+                <div className="flex items-center gap-2.5"><Star size={39} strokeWidth={1.7} className="shrink-0 text-[#4EC2A5]" /><span>Compatibility<br />That Matters</span></div>
+              </motion.div>
 
-      </div>
+            </div>
 
-    </motion.div>
-  </div>
-</section>
+          </motion.div>
+        </div>
+      </section>
       <motion.section
         variants={sectionReveal}
         initial="hidden"
@@ -306,38 +315,38 @@ export default function AboutPage() {
       </motion.section>
 
       <section className="bg-white px-3 pb-20 pt-4 sm:px-5 lg:px-7 lg:pb-24">
-  <div className="relative isolate mx-auto max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-[#E5E5E5] bg-[#F5F4F1]">
-    <img
-      src={sharedLivingSpace}
-      alt="A calm NestMate home"
-      className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_60%]"
-    />
-    <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.55)_55%,rgba(255,255,255,0.1)_100%)]" />
+        <div className="relative isolate mx-auto max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-[#E5E5E5] bg-[#F5F4F1]">
+          <img
+            src={sharedLivingSpace}
+            alt="A calm NestMate home"
+            className="absolute inset-0 -z-20 h-full w-full object-cover object-[center_60%]"
+          />
+          <div className="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_center,rgba(255,255,255,0.9)_0%,rgba(255,255,255,0.55)_55%,rgba(255,255,255,0.1)_100%)]" />
 
-    <div className="mx-auto max-w-xl px-7 py-20 text-center sm:px-12 lg:py-24">
-      <Eyebrow>Ready to get started?</Eyebrow>
-      <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
-        Find your place.<br />Find your people.
-      </h2>
-      <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-[#606060]">
-        Join thousands of people who have found more than just a room through NestMate.
-      </p>
-      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
-        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
-          <Link to="/browse" className="flex items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#2A2A2A]">
-            Explore Rooms
-            <ArrowRight size={15} />
-          </Link>
-        </motion.div>
-        <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
-          <Link to="/post-room" className="flex items-center justify-center rounded-full border border-[#0A0A0A]/20 bg-white/80 px-6 py-3 text-sm font-semibold text-[#171717] backdrop-blur-sm transition-colors hover:border-[#0A0A0A]">
-            Post a Room
-          </Link>
-        </motion.div>
-      </div>
-    </div>
-  </div>
-</section>
+          <div className="mx-auto max-w-xl px-7 py-20 text-center sm:px-12 lg:py-24">
+            <Eyebrow>Ready to get started?</Eyebrow>
+            <h2 className="font-serif text-4xl font-extrabold leading-[1.03] tracking-[-0.04em] text-[#101010] sm:text-5xl">
+              Find your place.<br />Find your people.
+            </h2>
+            <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-[#606060]">
+              Join thousands of people who have found more than just a room through NestMate.
+            </p>
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
+                <Link to="/browse" className="flex items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-[#2A2A2A]">
+                  Explore Rooms
+                  <ArrowRight size={15} />
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring} className="w-full sm:w-auto">
+                <Link to="/post-room" className="flex items-center justify-center rounded-full border border-[#0A0A0A]/20 bg-white/80 px-6 py-3 text-sm font-semibold text-[#171717] backdrop-blur-sm transition-colors hover:border-[#0A0A0A]">
+                  Post a Room
+                </Link>
+              </motion.div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }
