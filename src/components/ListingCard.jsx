@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Heart, MapPin, Zap, Users, Home } from 'lucide-react';
+import { Heart, MapPin, Zap, Users, Home, Pencil, Trash2 } from 'lucide-react';
 
 export default function ListingCard({
   id,
@@ -16,7 +16,10 @@ export default function ListingCard({
   owner,
   gender,
   available = true,
-  isBrokerageFree = true
+  isBrokerageFree = true,
+  isOwner = false,
+  onEdit,
+  onDelete,
 }) {
   const [isSaved, setIsSaved] = useState(false);
 
@@ -128,12 +131,35 @@ export default function ListingCard({
               <span className="text-xs text-[#6B6B6B] font-medium">{owner.name}</span>
             </div>
           )}
-          <Link
-            to={`/browse/${id}`}
-            className="px-4 py-2 bg-[#0A0A0A] hover:bg-[#2A2A2A] text-white rounded-full text-xs font-semibold transition-all"
-          >
-            View Details
-          </Link>
+          {isOwner ? (
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onEdit?.(id)}
+                className="btn-secondary px-3 py-2 text-xs"
+                aria-label={`Edit ${title}`}
+              >
+                <Pencil size={13} />
+                Edit
+              </button>
+              <button
+                type="button"
+                onClick={() => onDelete?.(id)}
+                className="btn-primary px-3 py-2 text-xs"
+                aria-label={`Delete ${title}`}
+              >
+                <Trash2 size={13} />
+                Delete
+              </button>
+            </div>
+          ) : (
+            <Link
+              to={`/browse/${id}`}
+              className="px-4 py-2 bg-[#0A0A0A] hover:bg-[#2A2A2A] text-white rounded-full text-xs font-semibold transition-all"
+            >
+              View Details
+            </Link>
+          )}
         </div>
       </div>
     </div>

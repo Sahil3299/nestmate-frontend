@@ -1,8 +1,11 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { X, MapPin, Home, IndianRupee, SlidersHorizontal, Building, RotateCcw, Users } from 'lucide-react';
+import toast from 'react-hot-toast';
 import ListingCard from '../components/ListingCard';
 import { ListingCardSkeleton } from '../components/ui/Skeleton';
 import { listingApi } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const DUMMY_LISTINGS = [
   {
@@ -35,6 +38,8 @@ const CITIES = ['All Cities', 'Mumbai', 'Pune', 'Bangalore', 'Thane', 'Delhi', '
 const ROOM_TYPES = ['All', '1BHK', '2BHK', '3BHK', 'Studio', 'PG'];
 
 export default function BrowseListingsPage() {
+  const navigate = useNavigate();
+  const { user } = useAuth();
   const [loading, setLoading] = useState(true);
   const [listings, setListings] = useState([]);
   const [filters, setFilters] = useState({
@@ -78,6 +83,18 @@ export default function BrowseListingsPage() {
 
   const resetFilters = () => {
     setFilters({ city: 'All Cities', budgetMin: 0, budgetMax: 100000, roomType: 'All', gender: '' });
+  };
+
+  const handleDeleteListing = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this listing?')) return;
+
+    try {
+      await listingApi.remove(id);
+      setListings((current) => current.filter((listing) => listing._id !== id));
+      toast.success('Listing deleted successfully.');
+    } catch (err) {
+      toast.error(err.response?.data?.message || 'Failed to delete this listing.');
+    }
   };
 
   const activeFilters = [
@@ -240,29 +257,37 @@ export default function BrowseListingsPage() {
               </div>
             ) : filteredListings.length > 0 ? (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {filteredListings.map((listing) => (
-                  <ListingCard
-                    key={listing._id}
-                    id={listing._id}
-                    title={listing.title}
-                    description={listing.description}
-                    isBrokerageFree={listing.isBrokerageFree}
-                    locality={listing.locality}
-                    city={listing.city}
-                    price={listing.rent}
-                    roomType={listing.roomType}
-                    image={listing.photos?.[0] || listing.images?.[0] || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop'}
-                    matchScore={listing.matchScore || 90}
-                    preferences={listing.preferences || []}
-                    gender={listing.genderPreference}
-                    available={listing.availability !== false}
-                    owner={listing.owner ? {
-                      name: listing.owner.name,
-                      avatar: listing.owner.name?.charAt(0) || 'U',
-                      id: listing.owner._id
-                    } : null}
-                  />
-                ))}
+                {filteredListings.map((listing) => {
+                  const ownerId = listing.owner?._id || listing.owner;
+                  const isOwner = Boolean(user?._id) && String(ownerId) === String(user._id);
+
+                  return (
+                    <ListingCard
+                      key={listing._id}
+                      id={listing._id}
+                      title={listing.title}
+                      description={listing.description}
+                      isBrokerageFree={listing.isBrokerageFree}
+                      locality={listing.locality}
+                      city={listing.city}
+                      price={listing.rent}
+                      roomType={listing.roomType}
+                      image={listing.photos?.[0] || listing.images?.[0] || 'https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop'}
+                      matchScore={listing.matchScore || 90}
+                      preferences={listing.preferences || []}
+                      gender={listing.genderPreference}
+                      available={listing.availability !== false}
+                      isOwner={isOwner}
+                      onEdit={(id) => navigate(`/post-room/${id}`)}
+                      onDelete={handleDeleteListing}
+                      owner={listing.owner ? {
+                        name: listing.owner.name,
+                        avatar: listing.owner.name?.charAt(0) || 'U',
+                        id: listing.owner._id
+                      } : null}
+                    />
+                  );
+                })}
               </div>
             ) : (
               <div className="text-center py-20 bg-white rounded-2xl border border-[#E5E7EB] p-8">

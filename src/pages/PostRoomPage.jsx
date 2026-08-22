@@ -1,23 +1,82 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ChevronRight, ChevronLeft, Upload, X, Check } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { listingApi } from '../services/api';
+import { useAuth } from '../contexts/AuthContext';
 
 const ROOM_TYPES = ['1BHK', '2BHK', '3BHK', 'Studio', 'PG'];
 const CITIES = ['Mumbai', 'Pune', 'Bangalore', 'Thane', 'Delhi', 'Hyderabad'];
+const EMPTY_FORM = {
+  city: '', locality: '', rent: '', roomType: '', bhk: '',
+  genderPreference: '', foodHabit: '', occupation: '',
+  smoking: 'no', guests: 'no', pets: 'no',
+  description: '', amenities: [],
+};
 
 export default function PostRoomPage() {
   const navigate = useNavigate();
+  const { id: listingId } = useParams();
+  const { user, loading: authLoading } = useAuth();
+  const isEditing = Boolean(listingId);
   const [step, setStep] = useState(1);
   const [images, setImages] = useState([]);
+  const [existingPhotos, setExistingPhotos] = useState([]);
+  const [loadingListing, setLoadingListing] = useState(isEditing);
   const [submitting, setSubmitting] = useState(false);
-  const [formData, setFormData] = useState({
-    city: '', locality: '', rent: '', roomType: '', bhk: '',
-    genderPreference: '', foodHabit: '', occupation: '',
-    smoking: 'no', guests: 'no', pets: 'no',
-    description: '', amenities: [],
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+
+  useEffect(() => {
+    if (!isEditing || authLoading) return;
+
+    if (!user) {
+      toast.error('Please log in to edit a listing.');
+      navigate('/login', { replace: true });
+      return;
+    }
+
+    let cancelled = false;
+    const loadListing = async () => {
+      try {
+        const response = await listingApi.getOne(listingId);
+        const listing = response.data.data;
+        const ownerId = listing.owner?._id || listing.owner;
+
+        if (String(ownerId) !== String(user._id)) {
+          toast.error('You can only edit your own listing.');
+          navigate(`/browse/${listingId}`, { replace: true });
+          return;
+        }
+
+        if (!cancelled) {
+          setFormData({
+            ...EMPTY_FORM,
+            city: listing.city || '',
+            locality: listing.locality || '',
+            rent: listing.rent ?? '',
+            roomType: listing.roomType || '',
+            genderPreference: listing.genderPreference || '',
+            foodHabit: listing.preferredFlatmate?.foodPreference || '',
+            occupation: listing.preferredFlatmate?.occupation || '',
+            smoking: listing.preferredFlatmate?.smoking ? 'yes' : 'no',
+            guests: listing.preferredFlatmate?.guests ? 'yes' : 'no',
+            pets: listing.preferredFlatmate?.pets ? 'yes' : 'no',
+            description: listing.description || '',
+            amenities: listing.amenities || [],
+          });
+          setExistingPhotos(listing.photos || []);
+        }
+      } catch (err) {
+        toast.error(err.response?.data?.message || 'Failed to load this listing for editing.');
+        navigate('/browse', { replace: true });
+      } finally {
+        if (!cancelled) setLoadingListing(false);
+      }
+    };
+
+    loadListing();
+    return () => { cancelled = true; };
+  }, [authLoading, isEditing, listingId, navigate, user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -64,11 +123,17 @@ export default function PostRoomPage() {
       formData.amenities.forEach((a) => fd.append('amenities', a));
       images.forEach((img) => fd.append('images', img.file));
 
-      await listingApi.create(fd);
-      toast.success('Room posted successfully!');
-      navigate('/browse');
+      if (isEditing) {
+        await listingApi.update(listingId, fd);
+        toast.success('Listing updated successfully!');
+        navigate(`/browse/${listingId}`, { replace: true });
+      } else {
+        await listingApi.create(fd);
+        toast.success('Room posted successfully!');
+        navigate('/browse');
+      }
     } catch (err) {
-      const msg = err.response?.data?.message || err.message || 'Failed to post room. Please try again.';
+      const msg = err.response?.data?.message || err.message || `Failed to ${isEditing ? 'update' : 'post'} room. Please try again.`;
       toast.error(msg);
     } finally {
       setSubmitting(false);
@@ -79,15 +144,19 @@ export default function PostRoomPage() {
   const isStep2Valid = formData.genderPreference && formData.foodHabit;
   const isStep3Valid = formData.description.length >= 20;
 
+  if (isEditing && loadingListing) {
+    return <div className="min-h-screen bg-[#FAFAFA] py-24 text-center text-[#64748B]">Loading your listing…</div>;
+  }
+
   return (
     <div className="py-8 md:py-12 bg-gradient-to-br from-[#FAFAFA] to-neutral-100/40 min-h-screen">
       <div className="container-max max-w-2xl">
         {/* Title */}
         <div className="text-center mb-12">
           <h1 className="font-display text-3xl md:text-4xl font-bold text-[#0F172A] mb-2">
-            Post Your Room
+            {isEditing ? 'Edit Your Room' : 'Post Your Room'}
           </h1>
-          <p className="text-[#64748B]">List your room for free and find the perfect flatmate</p>
+          <p className="text-[#64748B]">{isEditing ? 'Update your listing details and save your changes' : 'List your room for free and find the perfect flatmate'}</p>
         </div>
 
         {/* Progress */}
@@ -160,7 +229,7 @@ export default function PostRoomPage() {
                   <label className="block text-sm font-semibold text-[#0F172A] mb-2">Gender Preference *</label>
                   <select name="genderPreference" value={formData.genderPreference} onChange={handleInputChange} className="input">
                     <option value="">Select preference</option>
-                    <option value="Male">Any</option>
+                    <option value="Any">Any</option>
                     <option value="Male">Male only</option>
                     <option value="Female">Female only</option>
                   </select>
@@ -218,13 +287,23 @@ export default function PostRoomPage() {
 
               <div>
                 <label className="block text-sm font-semibold text-[#0F172A] mb-4">Upload Photos</label>
+                {isEditing && existingPhotos.length > 0 && (
+                  <div className="mb-4">
+                    <p className="mb-2 text-sm text-[#64748B]">Current photos (kept unless you upload replacements)</p>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                      {existingPhotos.map((photo) => (
+                        <img key={photo} src={photo} alt="Current room" className="h-32 w-full rounded-xl object-cover" />
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div className="border-2 border-dashed border-[#E2E8F0] rounded-xl p-8 text-center hover:bg-slate-50 transition-colors">
                   <Upload className="w-8 h-8 text-[#94a3b8] mx-auto mb-2" />
-                  <p className="text-sm text-[#64748B] mb-4">Upload images of your room</p>
+                  <p className="text-sm text-[#64748B] mb-4">{isEditing ? 'Upload new images to replace the current photos' : 'Upload images of your room'}</p>
                   <input type="file" accept="image/*" onChange={handleImageUpload} disabled={images.length >= 5} className="hidden" id="image-upload" />
                   <label htmlFor="image-upload" className="btn-primary text-sm cursor-pointer inline-flex">
                     <Upload size={16} />
-                    Choose Image ({images.length}/5)
+                    {isEditing ? 'Choose New Images' : `Choose Image (${images.length}/5)`}
                   </label>
                 </div>
 
@@ -270,7 +349,7 @@ export default function PostRoomPage() {
                 </button>
                 <button type="submit" disabled={!isStep3Valid || submitting}
                   className={`btn ${isStep3Valid && !submitting ? 'btn-primary' : 'opacity-50 cursor-not-allowed'}`}>
-                  {submitting ? 'Posting...' : 'Post Room'}
+                   {submitting ? (isEditing ? 'Saving...' : 'Posting...') : (isEditing ? 'Save Changes' : 'Post Room')}
                 </button>
               </div>
             </div>

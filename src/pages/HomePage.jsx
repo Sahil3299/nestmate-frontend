@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
   ArrowRight,
   CheckCircle2,
+  ChevronLeft,
+  ChevronRight,
   Home,
   IndianRupee,
   MessageCircle,
@@ -15,9 +17,10 @@ import {
   Users,
 } from 'lucide-react';
 import ListingCard from '../components/ListingCard';
-import heroBg from '../assets/shared_living_space.png';
+import heroBg from '../assets/aboutpage.png';
 import infoCard from '../assets/info_card.png';
 import dashboardCard from '../assets/card.png';
+import livingRoom from '../assets/shared_living_space.png';
 
 const DUMMY_LISTINGS = [
   {
@@ -41,7 +44,7 @@ const DUMMY_LISTINGS = [
     city: 'Mumbai',
     price: 35000,
     roomType: '2BHK',
-    image: 'https://images.unsplash.com/photo-1501699686415-ba1eb9e88213?w=600&h=400&fit=crop',
+    image: livingRoom,
     matchScore: 85,
     preferences: ['Professional', 'Early sleeper'],
     gender: 'Male',
@@ -257,103 +260,145 @@ export default function HomePage() {
   return (
     <div className="w-full overflow-x-hidden bg-[#F7F7F7]">
       <section className="px-3 pb-16 pt-3 sm:px-5 sm:pb-20 lg:px-7">
-        <div className="relative isolate mx-auto min-h-[700px] max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-black/[0.04] bg-[#f8f8f6] shadow-[0_18px_45px_rgba(23,20,16,0.06)] sm:min-h-[650px] lg:min-h-[700px]">
-          <img
-            src={heroBg}
-            alt="A welcoming NestMate home with a city view"
-            className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
-          />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(10,10,10,0.72)_0%,rgba(10,10,10,0.52)_40%,rgba(10,10,10,0.28)_68%,rgba(10,10,10,0.06)_100%)]" />
-          <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(10,10,10,0.55)_0%,rgba(10,10,10,0.70)_60%,rgba(10,10,10,0.45)_100%)] sm:hidden" />
+  <div className="relative isolate mx-auto min-h-[700px] max-w-[1440px] overflow-hidden rounded-[1.5rem] border border-black/[0.04] bg-[#f8f8f6] shadow-[0_18px_45px_rgba(23,20,16,0.06)] sm:min-h-[650px] lg:min-h-[700px]">
+
+    {/* Background Image */}
+    <img
+      src={heroBg}
+      alt="A welcoming NestMate home with a city view"
+      className="absolute inset-0 -z-20 h-full w-full object-cover object-center"
+    />
+
+    {/* About-page style dark overlay */}
+    <div className="absolute inset-0 -z-10 bg-[linear-gradient(90deg,rgba(0,0,0,0.80)_0%,rgba(0,0,0,0.62)_35%,rgba(0,0,0,0.30)_68%,rgba(0,0,0,0.08)_100%)]" />
+
+    {/* Subtle overall darkening */}
+    <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.30)_100%)]" />
+
+    <motion.div
+      variants={staggerContainer}
+      initial="hidden"
+      animate="visible"
+      className="flex min-h-[700px] items-start px-6 py-12 sm:min-h-[650px] sm:items-center sm:px-12 sm:py-20 lg:min-h-[700px] lg:px-20 xl:px-28"
+    >
+      <div className="w-full max-w-2xl text-left">
+
+        {/* SAME CONTENT */}
+        <motion.p
+          variants={fadeUp}
+          className="mb-3 text-xs font-medium text-white/80 sm:mb-4 sm:text-base"
+        >
+          Move in with trust, not tension
+        </motion.p>
+
+        {/* SAME HEADING — About page typography/color */}
+        <h1 className="mb-5 font-serif text-[2.9rem] font-black leading-[0.96] tracking-[-0.052em] text-white sm:mb-6 sm:text-[clamp(3.25rem,6vw,5.8rem)]">
+          <motion.span
+            variants={fadeUp}
+            className="block"
+          >
+            Find Your Perfect
+          </motion.span>
+
+          <motion.span
+            variants={fadeUp}
+            className="block text-[#67CFA5]"
+          >
+            Flatmate in Mumbai
+          </motion.span>
+        </h1>
+
+        {/* SAME TRUST BADGE */}
+        <motion.div variants={fadeUp} className="mb-5 sm:mb-7">
+          <TrustBadge tone="dark" />
+        </motion.div>
+
+        {/* SAME SEARCH */}
+        <motion.div variants={fadeUp} className="mb-6 w-full max-w-2xl">
+          <form
+            onSubmit={handleSearch}
+            className="flex flex-col items-center gap-2 rounded-[2rem] border border-[#E5E5E5] bg-white/95 p-2.5 shadow-lg backdrop-blur-sm transition-all hover:border-[#0A0A0A]/50 sm:flex-row sm:rounded-full"
+          >
+            <div className="flex w-full flex-1 items-center gap-3 px-4 py-2">
+              <Search
+                size={20}
+                className="shrink-0 text-[#6B6B6B]"
+              />
+
+              <input
+                type="text"
+                placeholder="Search by city, locality, or budget..."
+                value={searchQuery}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                className="w-full bg-transparent text-sm text-[#0A0A0A] placeholder-[#6B6B6B]/70 focus:outline-none"
+              />
+            </div>
+
+            <div className="flex w-full min-w-0 items-center gap-2 px-2 sm:w-auto">
+              <select
+                value={searchCity}
+                onChange={(event) => setSearchCity(event.target.value)}
+                className="shrink-0 cursor-pointer rounded-full border border-[#E5E5E5] bg-[#F7F7F7] px-4 py-2.5 text-xs font-semibold text-[#0A0A0A] focus:outline-none"
+              >
+                {CITIES.map((city) => (
+                  <option key={city} value={city}>
+                    {city}
+                  </option>
+                ))}
+              </select>
+
+              <motion.button
+                type="submit"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                transition={spring}
+                className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-4 py-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#2A2A2A] sm:w-auto sm:flex-none sm:px-7"
+              >
+                Search
+                <ArrowRight size={14} />
+              </motion.button>
+            </div>
+          </form>
+        </motion.div>
+
+        {/* SAME BUTTONS */}
+        <motion.div
+          variants={fadeUp}
+          className="flex flex-wrap items-center gap-2.5 sm:gap-3"
+        >
+          <motion.div
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            transition={spring}
+          >
+            <Link
+              to="/browse"
+              className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] shadow-xs transition-colors hover:bg-[#67CFA5]"
+            >
+              Start Browsing
+              <ArrowRight size={13} />
+            </Link>
+          </motion.div>
 
           <motion.div
-            variants={staggerContainer}
-            initial="hidden"
-            animate="visible"
-            className="flex min-h-[700px] items-start px-6 py-12 sm:min-h-[650px] sm:items-center sm:px-12 sm:py-20 lg:min-h-[700px] lg:px-20 xl:px-28"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.98 }}
+            transition={spring}
           >
-            <div className="w-full max-w-2xl text-left">
-              <motion.p variants={fadeUp} className="mb-3 text-xs font-medium text-white/80 sm:mb-4 sm:text-base">
-                Move in with trust, not tension
-              </motion.p>
-
-              <h1 className="mb-5 font-serif text-[2.9rem] font-black leading-[0.96] tracking-[-0.052em] text-white sm:mb-6 sm:text-[clamp(3.25rem,6vw,5.8rem)]">
-                {['Find Your Perfect', 'Flatmate in Mumbai'].map((line) => (
-                  <motion.span key={line} variants={fadeUp} className="block">
-                    {line}
-                  </motion.span>
-                ))}
-              </h1>
-
-              <motion.div variants={fadeUp} className="mb-5 sm:mb-7">
-                <TrustBadge tone="dark" />
-              </motion.div>
-
-              <motion.div variants={fadeUp} className="mb-6 w-full max-w-2xl">
-                <form
-                  onSubmit={handleSearch}
-                  className="flex flex-col items-center gap-2 rounded-[2rem] border border-[#E5E5E5] bg-white/95 p-2.5 shadow-lg backdrop-blur-sm transition-all hover:border-[#0A0A0A]/50 sm:flex-row sm:rounded-full"
-                >
-                  <div className="flex w-full flex-1 items-center gap-3 px-4 py-2">
-                    <Search size={20} className="shrink-0 text-[#6B6B6B]" />
-                    <input
-                      type="text"
-                      placeholder="Search by city, locality, or budget..."
-                      value={searchQuery}
-                      onChange={(event) => setSearchQuery(event.target.value)}
-                      className="w-full bg-transparent text-sm text-[#0A0A0A] placeholder-[#6B6B6B]/70 focus:outline-none"
-                    />
-                  </div>
-
-                  <div className="flex w-full min-w-0 items-center gap-2 px-2 sm:w-auto">
-                    <select
-                      value={searchCity}
-                      onChange={(event) => setSearchCity(event.target.value)}
-                      className="shrink-0 cursor-pointer rounded-full border border-[#E5E5E5] bg-[#F7F7F7] px-4 py-2.5 text-xs font-semibold text-[#0A0A0A] focus:outline-none"
-                    >
-                      {CITIES.map((city) => (
-                        <option key={city} value={city}>{city}</option>
-                      ))}
-                    </select>
-
-                    <motion.button
-                      type="submit"
-                      whileHover={{ scale: 1.03 }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={spring}
-                      className="flex flex-1 items-center justify-center gap-2 rounded-full bg-[#0A0A0A] px-4 py-3 text-xs font-semibold text-white shadow-sm transition-colors hover:bg-[#2A2A2A] sm:w-auto sm:flex-none sm:px-7"
-                    >
-                      Search
-                      <ArrowRight size={14} />
-                    </motion.button>
-                  </div>
-                </form>
-              </motion.div>
-
-              <motion.div variants={fadeUp} className="flex flex-wrap items-center gap-2.5 sm:gap-3">
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
-                  <Link
-                    to="/browse"
-                    className="flex items-center gap-1.5 rounded-full bg-white px-5 py-2.5 text-xs font-semibold text-[#0A0A0A] shadow-xs transition-colors hover:bg-[#EFEFEF]"
-                  >
-                    Start Browsing
-                    <ArrowRight size={13} />
-                  </Link>
-                </motion.div>
-                <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.98 }} transition={spring}>
-                  <a
-                    href="#how-it-works"
-                    className="flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-xs font-semibold text-white shadow-xs backdrop-blur-sm transition-all hover:bg-white/20"
-                  >
-                    <Play size={12} />
-                    See How It Works
-                  </a>
-                </motion.div>
-              </motion.div>
-            </div>
+            <a
+              href="#how-it-works"
+              className="flex items-center gap-1.5 rounded-full border border-white/25 bg-white/10 px-5 py-2.5 text-xs font-semibold text-white shadow-xs backdrop-blur-sm transition-all hover:bg-white/20"
+            >
+              <Play size={12} />
+              See How It Works
+            </a>
           </motion.div>
-        </div>
-      </section>
+        </motion.div>
+
+      </div>
+    </motion.div>
+  </div>
+</section>
 
       <motion.section
         variants={sectionReveal}

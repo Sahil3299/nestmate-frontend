@@ -42,6 +42,7 @@ export default function App() {
             <Route path="/browse" element={<BrowseListingsPage />} />
             <Route path="/browse/:id" element={<ListingDetailPage />} />
             <Route path="/post-room" element={<PostRoomPage />} />
+            <Route path="/post-room/:id" element={<PostRoomPage />} />
             <Route path="/profile/:id" element={<ProfilePage />} />
             <Route path="/chat/:userId?" element={<ChatPage />} />
             <Route path="/messages/:userId?" element={<ChatPage />} />
