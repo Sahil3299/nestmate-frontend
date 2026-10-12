@@ -316,8 +316,10 @@ export default function ProfilePage() {
           <div className="h-32 bg-gradient-to-r from-[#1A1A1A] to-[#000000]" />
 
           <div className="px-6 md:px-8 pb-8">
-            <div className="flex flex-col md:flex-row items-start md:items-end gap-6 -mt-16 mb-6">
-              <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0">
+            {/* FIX: removed -mt-16 from this wrapper so the name block stays on the white area */}
+            <div className="flex flex-col md:flex-row items-start md:items-end gap-6 mb-6">
+              {/* FIX: negative margin now applies only to the avatar, so only the avatar overlaps the banner */}
+              <div className="relative w-28 h-28 md:w-32 md:h-32 shrink-0 -mt-14 md:-mt-16">
                 <div className="w-full h-full rounded-2xl bg-[#0A0A0A] flex items-center justify-center text-white font-display text-4xl md:text-5xl font-bold shadow-lg border-4 border-white overflow-hidden">
                   {displayImage ? (
                     <img src={displayImage} alt={profile.name} className="w-full h-full object-cover" />
@@ -353,7 +355,8 @@ export default function ProfilePage() {
                 />
               </div>
 
-              <div className="flex-1 min-w-0">
+              {/* FIX: small top padding so the name never touches the banner edge */}
+              <div className="flex-1 min-w-0 pt-2 md:pt-4">
                 <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-3">
                   <div>
                     <h1 className="font-display text-2xl md:text-4xl font-bold text-[#0F172A] truncate">
